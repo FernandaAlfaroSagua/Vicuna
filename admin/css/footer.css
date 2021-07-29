@@ -1,0 +1,33 @@
+footer {
+  position: relative;
+}
+
+.services-section {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(159, 23, 46, 0.8),
+    rgba(159, 23, 46, 0.8)
+  );
+  background-size: cover;
+  background-position: top;
+  height: 46rem;
+  position: relative;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+footer {
+  background-color: rgb(159, 23, 46);
+  color: white;
+}
+
+.barra-footer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.barra-footer img {
+  width: 100%;
+  height: 20px;
+}

@@ -1,0 +1,385 @@
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  /* font-size: 16px; */
+  line-height: 1.7;
+  color: #777;
+  background-color: #f7f7f7;
+}
+
+.btn-main {
+  background-image: linear-gradient(to right, #8f1226, #9f172e);
+  border: none;
+  color: white;
+  padding: 0.2rem 2rem;
+}
+
+.btn-white,
+.btn-green {
+  display: inline-block;
+  padding: 0.5rem 2.5rem;
+  border-radius: 10px;
+}
+
+#interest .btn-green {
+  font-size: 1.5rem;
+}
+
+.btn-green {
+  background-color: #c02841;
+  color: white;
+  transition: all 0.2s;
+}
+
+.btn-white {
+  color: #565656;
+  transition: all 0.2s;
+}
+
+.btn-white:hover {
+  background-color: #ccc;
+  text-decoration: none;
+  color: #565656;
+}
+
+.btn-green:hover {
+  text-decoration: none;
+  color: white;
+  background-color: #ee697f;
+}
+
+#services .btn-white,
+#location .btn-white {
+  background-color: white;
+  font-size: 1.2rem;
+}
+
+.text-box {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
+.intro {
+  background-image: linear-gradient(
+      to right bottom,
+      transparent,
+      rgba(159, 23, 46, 0.8)
+    ),
+    url("../img/hero.jpg");
+  background-size: cover;
+  background-position: top;
+  height: 90vh;
+  /* clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%); */
+  position: relative;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  margin-bottom: 2rem;
+}
+
+#carouselHero .carousel-item img {
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+  height: 90vh;
+}
+
+#carouselHero .carousel-item:before {
+  content: "";
+  display: block;
+  position: absolute;
+  background-image: linear-gradient(
+    to right bottom,
+    transparent,
+    rgba(159, 23, 46, 0.8)
+  );
+  width: 100vw;
+  top: 0;
+  height: 90vh;
+}
+
+#intro .carousel-item img {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#navigation {
+  position: relative;
+}
+
+#historia {
+  position: relative;
+}
+
+.colaboracion {
+  position: relative;
+}
+
+.barra-primera {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.barra-segunda {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.heading-color {
+  color: #9f172e;
+}
+
+.barra-primera img,
+.barra-segunda img {
+  width: 100%;
+  height: 20px;
+}
+
+#social li a img {
+  width: 30px;
+}
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.heading-primary-main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  letter-spacing: 3.5rem;
+}
+
+.heading-secondary-main {
+  display: block;
+  font-size: 4rem;
+  font-weight: 400;
+  letter-spacing: 1.5rem;
+  text-align: center;
+  background: linear-gradient(to right, #f18b9c 0%, #e62e4d 51%, #9f172e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+.heading-primary-sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.2rem;
+}
+
+.locations-section {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(159, 23, 46, 0.8),
+    rgba(159, 23, 46, 0.8)
+  );
+  background-size: cover;
+  background-position: top;
+  height: 50rem;
+  position: relative;
+  padding-top: 3rem;
+  text-align: center;
+}
+
+.heading-first-main {
+  display: block;
+  font-size: 4rem;
+  font-weight: 400;
+  letter-spacing: 1.5rem;
+}
+
+.interest-section {
+  height: 50rem;
+  padding-top: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.colaboracion {
+  height: 30rem;
+}
+
+footer {
+  position: relative;
+}
+
+.services-section {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(159, 23, 46, 0.8),
+    rgba(159, 23, 46, 0.8)
+  );
+  background-size: cover;
+  background-position: top;
+  height: 46rem;
+  position: relative;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+footer {
+  background-color: rgb(159, 23, 46);
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding-bottom: 3rem;
+  }
+  .heading-primary-main {
+    display: block;
+    font-size: 4rem;
+    font-weight: 400;
+    letter-spacing: 3rem;
+  }
+
+  .heading-first-main,
+  .heading-secondary-main {
+    display: block;
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 0.5;
+  }
+}
+
+@media (max-width: 790px) {
+  .heading-first-main,
+  .heading-secondary-main {
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5;
+    text-align: center;
+    margin: auto;
+  }
+}
+
+@media (max-width: 1000px) {
+  .locations-section,
+  .interest-section {
+    height: 52rem;
+  }
+
+  .interest-section {
+    height: 54rem;
+  }
+
+  .colaboracion {
+    height: 37rem;
+  }
+}
+
+@media (max-width: 605px) {
+  .locations-section,
+  .interest-section {
+    height: 52rem;
+  }
+
+  .heading-first-main,
+  .heading-secondary-main {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5;
+    text-align: center;
+    margin: auto;
+  }
+
+  .locations-section .heading-first-main {
+    font-size: 2rem;
+  }
+
+  .heading-primary {
+    text-align: center;
+  }
+  .heading-primary-main {
+    font-size: 2.4rem;
+  }
+
+  .heading-primary-sub {
+    font-size: 1.5rem;
+  }
+
+  .detalles {
+    margin: 0 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .locations-section,
+  .interest-section {
+    height: 48rem;
+  }
+
+  .heading-first-main,
+  .heading-secondary-main {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin: auto;
+    letter-spacing: 0;
+  }
+
+  .locations-section .heading-first-main {
+    font-size: 1.2rem;
+  }
+
+  .heading-primary {
+    text-align: center;
+  }
+  .heading-primary-main {
+    font-size: 1.8rem;
+    letter-spacing: 0;
+    margin-bottom: 10px;
+  }
+
+  .heading-primary-sub {
+    font-size: 1.2rem;
+    letter-spacing: 0;
+  }
+
+  .detalles {
+    margin: 0 1.2rem;
+  }
+}
+
+.fila {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.columna-1 {
+  margin-right: 2rem;
+  width: 50%;
+}
+
+.columna-1 img {
+  width: 100%;
+}
+
+.columna-2 {
+  width: 50%;
+}
+
+.description .fila h2 {
+  font-size: 4rem;
+}
+
+.description .row h3,
+.description .fila h3 {
+  font-size: 3rem;
+}
+
+.description .fila p {
+  font-size: 2rem;
+}
