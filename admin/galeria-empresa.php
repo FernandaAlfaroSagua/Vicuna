@@ -1,3 +1,9 @@
+<?php 
+include('../function/setup.php');
+  $sqlser = "SELECT * FROM empresa WHERE idEmpresa=" . $_GET['id'];
+  $resultser = mysqli_query(conectar(), $sqlser);
+  $datoser = mysqli_fetch_array($resultser);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -218,34 +224,60 @@
             <!-- Page Heading -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h4 class="m-0 font-weight-bold text-primary">Modificar Galeria</h4>
-                <h6 class="m-0 font-weight-bold text-primary">Empresa ...</h6>
+                <h4 class="m-0 font-weight-bold text-primary">Galeria de la Empresa</h4>
+                <h6 class="m-0 font-weight-bold text-primary"><?php echo $datoser['nombreEmpresa'] ?></h6>
               </div>
               <div class="card-body">
+              <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#form">
+                <i class="fas fa-plus-circle"></i> Subir Foto
+              </button>  
                 <div class="row">
-                  <div class="col-md-4 col-12">
-                    <div class="card card-text-top card-gradient-top card-inverse text-top">
-                      <!-- Image -->
-                      <img alt="Photo of sunset" class="card-img-top" src="../img/hero.jpg"> 
-                      <!-- Text Overlay -->
-                      <div class="card-body text-center">
-                        <a href="#"><img src="../img/principal.png" alt=""></a>
-                        <a href="#"><img src="../img/activo.png" alt=""></a>
-                      </div>
-                    </div>			
-                  </div>
-                  <div class="col-md-4 col-12">
-                    <div class="card card-text-right card-gradient-right card-inverse text-right">
-                      <!-- Image -->
-                      <img alt="Photo of sunset" class="card-img-top" src="../img/vicuna.jpg"> 
-                      <div class="card-body text-center">
-                        <a href="#"><img src="../img/noprincipal.png" alt=""></a>
-                        <a href="#"><img src="../img/inactivo.png" alt=""></a>
-                        <a href="#"><img src="../img/remove.png" alt=""></a>
-                      </div>
-                      <!-- Text Overlay -->
-                    </div>			
-                  </div>
+
+                <?php
+                              $sql = "select * from galeriaempresa where empresa_idEmpresa=". $_GET['id'];
+                              $result = mysqli_query(conectar(), $sql);
+                              while ($datos = mysqli_fetch_array($result)) {
+                              ?>
+                                <div class="col-md-4 col-12">
+                                    <div class="card card-text-top card-gradient-top card-inverse text-top">
+                                    <img src="../galeriaempresa/<?php echo $datos['imagen'];?>" alt="" class="card-img-top" >
+                                    <div class="card-body text-center">
+                                    <?php
+                                      if($datos['estado']==1){
+
+                                    ?>
+                                      <a href="../function/mantenedorFotos.php?idfoto=<?php echo $datos['idgaleriaEmpresa'];?> &act=0 &id=<?php echo $_GET['id']?>&servicio=<?php echo $_GET['servicio'];?>&rubro=<?php echo $_GET['rubro'];?>"><img src="../img/activo.png" alt="Desactivar"></a>
+                                    <?php
+                                    } else {
+                                    ?>
+                                      <a href="../function/mantenedorFotos.php?idfoto=<?php echo $datos['idgaleriaEmpresa'];?> &act=1 &id=<?php echo $_GET['id']?>&servicio=<?php echo $_GET['servicio'];?>&rubro=<?php echo $_GET['rubro'];?>" id="inactivo"><img id="foto" src="../img/inactivo.png" alt="Activar"></a>
+                                    <?php 
+                                    }
+                                    if($datos['principal']==1){
+                                    ?>
+                                      <a href="../function/mantenedorFotos.php?idfoto=<?php echo $datos['idgaleriaEmpresa'];?> &estado=<?php echo $datos['estado']; ?> &principal=0&id=<?php echo $_GET['id']?>&servicio=<?php echo $_GET['servicio'];?>&rubro=<?php echo $_GET['rubro'];?>"><img src="../img/principal.png" alt="No Principal"></a>
+                                    <?php
+                                    } else {
+                                    ?>
+                                      <a href="../function/mantenedorFotos.php?idfoto=<?php echo $datos['idgaleriaEmpresa'];?> &estado=<?php echo $datos['estado']; ?> & principal=1&id=<?php echo $_GET['id']?>&servicio=<?php echo $_GET['servicio'];?>&rubro=<?php echo $_GET['rubro'];?>"><img src="../img/noprincipal.png" alt="Principal"></a>
+                                    <?php
+                                    }
+
+                                    if($datos['principal']==0)
+                                    {
+                                    ?>
+                                    <a href="../function/mantenedorFotos.php?idfoto=<?php echo $datos['idgaleriaEmpresa'];?> & delete=1 &id=<?php echo $_GET['id']?>&servicio=<?php echo $_GET['servicio'];?>&rubro=<?php echo $_GET['rubro'];?>"><img src="../img/remove.png" alt="Eliminar"></a>
+
+                                    <?php
+                                    }
+                                    ?>
+                                    </div>
+                                    </div>
+                                 </div>
+                          <?php
+                            }
+                          ?> 
+
                 </div>
                 
               </div>
@@ -256,9 +288,45 @@
         </div>
         <!-- /.container-fluid -->
 
+        <!-- modal -->
+        <div class="modal fade" id="form"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="exampleModalLabel">Subir Fotos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="../function/ctrl_galeria-empresa.php" method="post"  name="form" enctype="multipart/form-data">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="img">Seleccionar Fotos</label>
+                    <input type="hidden" name="accion_oculta" />
+                    <input type="hidden" name="id_oculta" value="<?php echo $_GET['id'];?>"/>
+                    <input type="hidden" name="servicio_oculta" value="<?php echo $_GET['servicio'];?>"/>
+                    <input type="hidden" name="rubro_oculta" value="<?php echo $_GET['rubro']; ?>"/>
+                    <input
+                          type="file"
+                          id="fotos"
+                          class="form-control"
+                          name="fotos[]"
+                          multiple
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                <input type="button" class="btn btn-success" id="registrar" value="Ingresar" onclick="enviar(this.value)">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- modal -->
       </div>
     </div>
 
+    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -275,6 +343,6 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
+    <script src="../js/validar-galeria.js"></script>
   </body>
 </html>

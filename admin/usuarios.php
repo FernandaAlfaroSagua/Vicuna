@@ -240,12 +240,9 @@
                 <button class="btn btn-warning" type="button">Modificar</button>
                 <?php } ?>
                 <button class="btn btn-secondary" type="button">Cancelar</button>
-
             </form>
             </div>
             </div>
-            
-            
 
             <!-- DataTales Example -->
             <div class="card shadow mb-4">

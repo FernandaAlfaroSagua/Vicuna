@@ -1,3 +1,11 @@
+<?php
+include('../function/setup.php');
+if (isset($_GET['id'])) {
+    $sqlser = "SELECT * FROM calles WHERE idcalles=" . $_GET['id'];
+    $resultser = mysqli_query(conectar(), $sqlser);
+    $datoser = mysqli_fetch_array($resultser);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -220,25 +228,36 @@
                 <h6 class="m-0 font-weight-bold text-primary">Calle</h6>
               </div>
             <div class="card-body">
-              <form>
-                <div class="mb-3"><label for="nombre">Nombre</label><input class="form-control" id="nombre" type="text"></div>
+            <form action="../function/ctrl_calle.php" method="post" name="form">
                 <div class="mb-3">
-                    <label for="estado">Estado</label><select class="form-control" id="estado" >
-                        <option value="0">Seleccione</option>
-                        <option>Activo</option>
-                        <option>Inactivo</option>
+                  <label for="nombre">Nombre</label>
+                  <input value="<?php if (isset($datoser)) { echo  $datoser['nombreCalle'];} ?>" class="form-control" name="nombre" id="nombre" type="text">
+                </div>
+                <div class="mb-3">
+                    <label for="estado">Estado</label>
+                    <select class="form-control" id="estado" name="estado" >
+                        <option value="2">Seleccione</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoCalle'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoCalle'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
                     </select>
                 </div>
                 <?php
-                  if (!isset($_GET['id'])) {
-                  ?>
-                  <button class="btn btn-success" type="button">Ingresar</button>
+                    if (!isset($_GET['id'])) {
+                ?>
+                    <input type="button" class="btn btn-success"  value="Ingresar" onclick="enviar(this.value)">
+                    
+                <?php
+                } else {
+                ?>
+                    <input type="button" class="btn btn-warning" value="Actualizar" onclick="enviar(this.value)">
+                    <input type="button" class="btn btn-danger" value="Eliminar" onclick="enviar(this.value)">
+                    <input type="hidden" name="id_oculto" value="<?php echo $_GET['id']; ?>">
+                <?php
+                }
+                ?>
+                    <input type="hidden" name="accion_oculta" />
+                    <input type="button" class="btn btn-secondary" value="Cancelar" onclick="cancelar(this.value)">
 
-                <?php } else { ?>
-                <button class="btn btn-danger" type="button">Eliminar</button>
-                <button class="btn btn-warning" type="button">Modificar</button>
-                <?php } ?>
-                <button class="btn btn-secondary" type="button">Cancelar</button>
             </form>
             </div>
             </div>
@@ -270,23 +289,36 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                            <?php
+                                $sql = "SELECT * FROM calles";
+                                $result = mysqli_query(conectar(), $sql);
+                                while ($datos = mysqli_fetch_array($result)) 
+                                {
+                                ?>
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>
+                                    <td><?php echo $datos['idcalles']; ?></td>
+                                    <td><?php echo $datos['nombreCalle']; ?></td>
+                                    <?php if($datos['estadoCalle']=="1") { ?> 
+                                      <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
+                                    <?php } else { ?>  
+                                        
+                                        <td><i class="fas fa-window-close text-danger"></i></td>
+                                        
+                                    <?php }; ?>                                    <td>
                                       <div class="d-flex justify-content-around">
-                                        <a href="calles.php?id" >
+                                        <a href="calles.php?id=<?php echo $datos['idcalles']; ?>" >
                                           <i class="fas fa-pen"></i>
                                         </a>
                       
-                                        <a href="calles.php?id"  >
+                                        <a href="calles.php?id=<?php echo $datos['idcalles']; ?>" >
                                           <i class="fas fa-trash text-danger"></i>
                                         </a>
                                       </div>
                                     </td>
                                 </tr>
-                                
+                                <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -298,6 +330,7 @@
 
       </div>
     </div>
+    <script src="../js/validar-rubro.js"></script> 
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

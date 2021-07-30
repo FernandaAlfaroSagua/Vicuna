@@ -1,3 +1,11 @@
+<?php
+include('../function/setup.php');
+if (isset($_GET['id'])) {
+    $sqlser = "SELECT * FROM empresa WHERE idEmpresa=" . $_GET['id'];
+    $resultser = mysqli_query(conectar(), $sqlser);
+    $datoser = mysqli_fetch_array($resultser);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -221,48 +229,63 @@
                 <h6 class="m-0 font-weight-bold text-primary">Empresa</h6>
               </div>
             <div class="card-body">
-              <form>
-                <div class="mb-3"><label for="nombre">Nombre</label><input class="form-control" id="nombre" type="text"></div>
-                <div class="mb-3"><label for="descripcion">Descripción</label><input class="form-control" id="descripcion" type="text"></div>
-                <div class="mb-3"><label for="direccion">Dirección</label><input class="form-control" id="direccion" type="text"></div>
-                <div class="mb-3"><label for="tel">Teléfono Fijo</label><input class="form-control" id="tel" type="tel"></div>
-                <div class="mb-3"><label for="cel">Teléfono Celular</label><input class="form-control" id="cel" type="tel"></div>
-                <div class="mb-3"><label for="email">Email</label><input class="form-control" id="email" type="email"></div>
-                <div class="mb-3"><label for="img">Imagenes</label><input class="form-control" id="img"type="file" name="img" multiple ></div>
-                <div class="mb-3"><label for="web">Página Web</label><input class="form-control" id="web" type="text"></div>
-                <div class="mb-3"><label for="facebook">Facebook</label><input class="form-control" id="facebook" type="text"></div>
-                <div class="mb-3"><label for="twitter">Twitter</label><input class="form-control" id="twitter" type="text"></div>
-                <div class="mb-3"><label for="instagram">Instagram</label><input class="form-control" id="instagram" type="text"></div>
+              <form action="../function/ctrl_empresa.php" method="post" name="form">
+                <div class="mb-3"><label for="nombre">Nombre</label><input value="<?php if (isset($datoser)) { echo  $datoser['nombreEmpresa'];} ?>" class="form-control" id="nombre" type="text" name="nombre"></div>
+                <div class="mb-3"><label for="descripcion">Descripción</label><input value="<?php if (isset($datoser)) { echo  $datoser['descripcionEmpresa'];} ?>" class="form-control" id="descripcion" type="text" name="descripcion"></div>
+                <div class="mb-3"><label for="direccion">Dirección</label><input value="<?php if (isset($datoser)) { echo  $datoser['direccionEmpresa'];} ?>" class="form-control" id="direccion" type="text" name="direccion"></div>
+                <div class="mb-3"><label for="tel">Teléfono Fijo</label><input value="<?php if (isset($datoser)) { echo  $datoser['telefonofijoEmpresa'];} ?>" class="form-control" id="tel" type="tel" name="telefono"></div>
+                <div class="mb-3"><label for="cel">Teléfono Celular</label><input value="<?php if (isset($datoser)) { echo  $datoser['telefonocelularEmpresa'];} ?>" class="form-control" id="cel" type="tel" name="celular"></div>
+                <div class="mb-3"><label for="email">Email</label><input value="<?php if (isset($datoser)) { echo  $datoser['correoEmpresa'];} ?>" class="form-control" id="email" type="email" name="correo"></div>
+                <div class="mb-3"><label for="web">Página Web</label><input value="<?php if (isset($datoser)) { echo  $datoser['paginawebEmpresa'];} ?>" class="form-control" id="web" type="text" name="pagina"></div>
+                <div class="mb-3"><label for="facebook">Facebook</label><input value="<?php if (isset($datoser)) { echo  $datoser['rrssfacebookEmpresa'];} ?>" class="form-control" id="facebook" type="text" name="facebook"></div>
+                <div class="mb-3"><label for="twitter">Twitter</label><input value="<?php if (isset($datoser)) { echo  $datoser['rrsstwitterEmpresa'];} ?>" class="form-control" id="twitter" type="text" name="twitter"></div>
+                <div class="mb-3"><label for="instagram">Instagram</label><input value="<?php if (isset($datoser)) { echo  $datoser['rrssinstagramEmpresa'];} ?>" class="form-control" id="instagram" type="text" name="instagram"></div>
                 <div class="mb-3">
-                  <label for="servicio">Servicio</label><select class="form-control" id="servicio" >
+                  <label for="servicio">Servicio</label><select class="form-control" id="servicio" name="servicio">
                       <option value="0">Seleccione</option>
-                      <option>#</option>
+                      <?php $sql="SELECT * FROM servicio WHERE estadoServicio=1";
+                          $result = mysqli_query(conectar(), $sql);
+                          while ($datos = mysqli_fetch_array($result)) {             
+                      ?>                      
+                      <option <?php if (isset($_GET['servicio'])) {if ($_GET['servicio'] == $datos['idServicio'] ) { ?> selected <?php } } ?>  value="<?php echo $datos['idServicio'] ?>"><?php echo utf8_encode($datos['descripcionServicio']); ?></option>
+                      <?php }?>
                   </select>
                 </div>
                 <div class="mb-3">
-                  <label for="rubro">Rubro</label><select class="form-control" id="rubro" >
+                  <label for="rubro">Rubro</label><select class="form-control" id="rubro" name="rubro">
                       <option value="0">Seleccione</option>
-                      <option>#</option>
+                      <?php $sql="SELECT * FROM rubro WHERE estadoRubro=1";
+                          $result = mysqli_query(conectar(), $sql);
+                          while ($datos = mysqli_fetch_array($result)) {             
+                      ?>                      
+                      <option <?php if (isset($_GET['rubro'])) {if ($_GET['rubro'] == $datos['idRubro'] ) { ?> selected <?php } } ?>  value="<?php echo $datos['idRubro'] ?>"><?php echo utf8_encode($datos['nombreRubro']); ?></option>
+                      <?php }?>
                   </select>
                 </div>
-                
                 <div class="mb-3">
-                    <label for="estado">Estado</label><select class="form-control" id="estado" >
-                        <option value="0">Seleccione</option>
-                        <option>Activo</option>
-                        <option>Inactivo</option>
+                    <label for="estado">Estado</label>
+                    <select class="form-control" id="estado" name="estado" >
+                        <option value="2">Seleccione</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoEmpresa'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoEmpresa'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
                     </select>
                 </div>
                 <?php
-                  if (!isset($_GET['id'])) {
-                  ?>
-                  <button class="btn btn-success" type="button">Ingresar</button>
-
-                <?php } else { ?>
-                <button class="btn btn-danger" type="button">Eliminar</button>
-                <button class="btn btn-warning" type="button">Modificar</button>
-                <?php } ?>
-                <button class="btn btn-secondary" type="button">Cancelar</button>
+                    if (!isset($_GET['id'])) {
+                ?>
+                    <input type="button" class="btn btn-success"  value="Ingresar" onclick="enviar(this.value)">
+                    
+                <?php
+                } else {
+                ?>
+                    <input type="button" class="btn btn-warning" value="Actualizar" onclick="enviar(this.value)">
+                    <input type="button" class="btn btn-danger" value="Eliminar" onclick="enviar(this.value)">
+                    <input type="hidden" name="id_oculto" value="<?php echo $_GET['id']; ?>">
+                <?php
+                }
+                ?>
+                    <input type="hidden" name="accion_oculta" />
+                    <input type="button" class="btn btn-secondary" value="Cancelar" onclick="cancelar(this.value)">
 
             </form>
             </div>
@@ -317,37 +340,58 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                            <?php
+                                $sql = "SELECT
+                                rubro.nombreRubro,
+                                servicio.descripcionServicio,
+                                empresa.*
+                              FROM
+                                empresa
+                                INNER JOIN servicio ON empresa.servicio_idServicio =
+                              servicio.idServicio
+                                INNER JOIN rubro ON empresa.rubro_idRubro = rubro.idRubro";
+                                $result = mysqli_query(conectar(), $sql);
+                                while ($datos = mysqli_fetch_array($result)) 
+                                {
+                                ?>
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>
+                                    <td><?php echo $datos['idEmpresa']; ?></td>
+                                    <td><?php echo $datos['nombreEmpresa']; ?></td>
+                                    <td><?php echo $datos['descripcionEmpresa']; ?></td>
+                                    <td><?php echo $datos['direccionEmpresa']; ?></td>
+                                    <td><?php echo $datos['telefonofijoEmpresa']; ?></td>
+                                    <td><?php echo $datos['telefonocelularEmpresa']; ?></td>
+                                    <td><?php echo $datos['correoEmpresa']; ?></td>
+                                    <td><?php echo $datos['paginawebEmpresa']; ?></td>
+                                    <td><?php echo $datos['rrssfacebookEmpresa']; ?></td>
+                                    <td><?php echo $datos['rrsstwitterEmpresa']; ?></td>
+                                    <td><?php echo $datos['rrssinstagramEmpresa']; ?></td>
+                                    <td><?php echo $datos['nombreRubro']; ?></td>
+                                    <td><?php echo $datos['descripcionServicio']; ?></td>
+                                    <?php if($datos['estadoEmpresa']=="1") { ?> 
+                                      <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
+                                    <?php } else { ?>  
+                                        
+                                        <td><i class="fas fa-window-close text-danger"></i></td>
+                                        
+                                    <?php }; ?>                                    <td>
                                       <div class="d-flex justify-content-around">
-                                        <a href="empresa.php" >
+                                        <a href="empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
                                           <i class="fas fa-pen"></i>
                                         </a>
                       
-                                        <a href="empresa.php?id"  >
+                                        <a href="empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
                                           <i class="fas fa-trash text-danger"></i>
                                         </a>
-
-                                        <a href="galeria-empresa.php?id"  >
+                                        <a href="galeria-empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
                                           <i class="fas fa-images text-success"></i>
                                         </a>
                                       </div>
                                     </td>
                                 </tr>
+                                <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -359,7 +403,7 @@
 
       </div>
     </div>
-
+    <script src="../js/validar-empresa.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
