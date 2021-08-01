@@ -45,12 +45,13 @@
                     <div class="text-center">
                       <h1 class="h4 text-gray-900 mb-4">Bienvenido!</h1>
                     </div>
-                    <form class="user">
+                    <form class="user" action="../function/loginController.php" method="POST" > 
                       <div class="form-group">
                         <input
                           type="text"
                           class="form-control form-control-user"
                           id="user"
+                          name="usuario"
                           aria-describedby="user"
                           placeholder="Usuario"
                         />
@@ -58,6 +59,7 @@
                       <div class="form-group">
                         <input
                           type="password"
+                          name="clave"
                           class="form-control form-control-user"
                           id="exampleInputPassword"
                           placeholder="Contraseña"
@@ -75,12 +77,10 @@
                           >
                         </div>
                       </div>
-                      <a
-                        href="portal.php"
-                        class="btn btn-dark btn-user btn-block"
+                      <button type="submit" class="btn btn-dark btn-user btn-block"
                       >
                         Iniciar Sesión
-                      </a>
+                      </button>
                     </form>
                     <hr />
                     <div class="text-center">

@@ -76,3 +76,26 @@ function enviar(accion) {
     document.form.submit();
   }
 }
+
+function cancelar(accion) {
+  document.form.accion_oculta.value = accion;
+  document.form.submit();
+}
+
+$(function () {
+  $("#tel").keypress(function (e) {
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+      alert("Solo números");
+      return false;
+    }
+  });
+});
+
+$(function () {
+  $("#cel").keypress(function (e) {
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+      alert("Solo números");
+      return false;
+    }
+  });
+});

@@ -121,13 +121,19 @@ if (isset($_GET['id'])) {
           >
         </li>
 
-        <!-- Nav Item - Charts -->
         <li class="nav-item">
-          <a class="nav-link" href="puntos-de-interes.php">
-            <i class="fas fa-fw fa-map-marker-alt"></i>
-            <span>Puntos de Interés</span></a
-          >
-        </li>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-map-marker-alt"></i>
+                <span>Puntos de Interés</span></a
+              >
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="punto-de-interes.php">Puntos de Interés</a>
+                    <a class="collapse-item" href="videos.php">Videos</a>
+                </div>
+            </div> 
+        </li> 
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
@@ -199,11 +205,6 @@ if (isset($_GET['id'])) {
                   "
                   aria-labelledby="userDropdown"
                 >
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Perfil
-                  </a>
-                  <div class="dropdown-divider"></div>
                   <a
                     class="dropdown-item"
                     href="#"
@@ -376,14 +377,13 @@ if (isset($_GET['id'])) {
                                         
                                     <?php }; ?>                                    <td>
                                       <div class="d-flex justify-content-around">
-                                        <a href="empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
+                                        <a class="btn btn-success" href="empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
                                           <i class="fas fa-pen"></i>
                                         </a>
                       
-                                        <a href="empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
-                                          <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                        <a href="galeria-empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
+                                        <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
+
+                                        <a class="btn btn-dark" href="fotos.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
                                           <i class="fas fa-images text-success"></i>
                                         </a>
                                       </div>
@@ -400,26 +400,65 @@ if (isset($_GET['id'])) {
 
         </div>
         <!-- /.container-fluid -->
+        <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="../function/ctrl_empresa.php" method="post">
+                <div class="modal-body">
+                  <p>¿Esta seguro de cambiar el estado a inactivo?</p>
+                  <input type="hidden" name="accion_oculta" value="Eliminar" />
+                  <input type="hidden" name="id_oculto" id="id_oculto">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
-    <script src="../js/validar-empresa.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+    
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+    
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script src="../js/validar-empresa.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".deletebtn").on("click", function () {
+          $("#deletemodal").modal("show");
+          $tr = $(this).closest("tr");
+          var data = $tr
+            .children("td")
+            .map(function () {
+              return $(this).text();
+            })
+            .get();
 
+          console.log(data);
+          $("#id_oculto").val(data[0]);
+        });
+      });
+    </script>
   </body>
 </html>

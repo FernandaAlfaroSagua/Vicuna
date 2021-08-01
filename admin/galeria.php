@@ -1,7 +1,7 @@
 <?php
 include('../function/setup.php');
 if (isset($_GET['id'])) {
-    $sqlser = "SELECT * FROM servicio WHERE idServicio=" . $_GET['id'];
+    $sqlser = "SELECT * FROM galeria WHERE idGaleria=" . $_GET['id'];
     $resultser = mysqli_query(conectar(), $sqlser);
     $datoser = mysqli_fetch_array($resultser);
 }
@@ -77,13 +77,13 @@ if (isset($_GET['id'])) {
         <div class="sidebar-heading">Mantenedores</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link" href="servicios.php">
             <i class="fas fa-fw fa-cogs"></i>
             <span>Servicios</span></a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item ">
           <a class="nav-link" href="rubros.php">
             <i class="fas fa-fw fa-id-card"></i>
             <span>Rubros</span></a
@@ -114,7 +114,7 @@ if (isset($_GET['id'])) {
         <!-- Heading -->
         <div class="sidebar-heading">Transaccionales</div>
 
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="galeria.php">
             <i class="fas fa-fw fa-images"></i>
             <span>Galeria de Fotos</span></a
@@ -173,8 +173,7 @@ if (isset($_GET['id'])) {
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-              
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -227,20 +226,20 @@ if (isset($_GET['id'])) {
             <!-- Page Heading -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Servicio</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Galeria</h6>
               </div>
             <div class="card-body">
-              <form action="../function/ctrl_servicio.php" method="post" name="form">
+            <form action="../function/ctrl_galeria.php" method="post" name="form">
                 <div class="mb-3">
-                  <label for="description">Descripcion</label>
-                  <input value="<?php if (isset($datoser)) { echo  $datoser['descripcionServicio'];} ?>" class="form-control" name="descripcion" id="description" type="text">
+                  <label for="nombre">Nombre</label>
+                  <input value="<?php if (isset($datoser)) { echo  $datoser['nombreGaleria'];} ?>" class="form-control" name="nombre" id="nombre" type="text">
                 </div>
                 <div class="mb-3">
                     <label for="estado">Estado</label>
                     <select class="form-control" id="estado" name="estado" >
                         <option value="2">Seleccione</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoServicio'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoServicio'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoGaleria'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoGaleria'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
                     </select>
                 </div>
                 <?php
@@ -268,7 +267,7 @@ if (isset($_GET['id'])) {
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Listado de Servicios</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Listado de Galerias</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -276,43 +275,44 @@ if (isset($_GET['id'])) {
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Descripcion</th>
+                                    <th>Nombre</th>
                                     <th>Estado</th>
-                                    <th>Acción</th> 
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Descripcion</th>
+                                    <th>Nombre</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 <?php
-                                $sql = "SELECT * FROM servicio";
+                                $sql = "SELECT * FROM galeria";
                                 $result = mysqli_query(conectar(), $sql);
                                 while ($datos = mysqli_fetch_array($result)) 
                                 {
                                 ?>
                                 <tr>
-                                    <td><?php echo $datos['idServicio']; ?></td>
-                                    <td><?php echo $datos['descripcionServicio']; ?></td>
-                                    <?php if($datos['estadoServicio']=="1") { ?> 
+                                    <td><?php echo $datos['idGaleria']; ?></td>
+                                    <td><?php echo $datos['nombreGaleria']; ?></td>
+                                    <?php if($datos['estadoGaleria']=="1") { ?> 
                                       <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
                                     <?php } else { ?>  
                                         
                                         <td><i class="fas fa-window-close text-danger"></i></td>
                                         
-                                    <?php }; ?>
-                                    <td>
+                                    <?php }; ?>                                    <td>
                                       <div class="d-flex justify-content-around">
-                                        <a class="btn btn-success" href="servicios.php?id=<?php echo $datos['idServicio']; ?>" >
+                                        <a class="btn btn-success" href="galeria.php?id=<?php echo $datos['idGaleria']; ?>" >
                                           <i class="fas fa-pen"></i>
                                         </a>
-                      
                                         <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
+                                        <a class="btn btn-dark" href="galeria-fotos.php?id=<?php echo $datos['idGaleria'];?>" >
+                                          <i class="fas fa-images text-success"></i>
+                                        </a>
                                       </div>
                                     </td>
                                 </tr>
@@ -337,7 +337,7 @@ if (isset($_GET['id'])) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="../function/ctrl_servicio.php" method="post">
+              <form action="../function/ctrl_galeria.php" method="post">
                 <div class="modal-body">
                   <p>¿Esta seguro de cambiar el estado a inactivo?</p>
                   <input type="hidden" name="accion_oculta" value="Eliminar" />
@@ -354,24 +354,24 @@ if (isset($_GET['id'])) {
 
       </div>
     </div>
+    <script src="../js/validar-rubro.js"></script> 
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    
+
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    
+
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="../js/validar-servicio.js"></script>
 
     <script>
       $(document).ready(function () {

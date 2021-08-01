@@ -119,13 +119,19 @@ include('../function/setup.php');
           >
         </li>
 
-        <!-- Nav Item - Charts -->
         <li class="nav-item">
-          <a class="nav-link" href="puntos-de-interes.php">
-            <i class="fas fa-fw fa-map-marker-alt"></i>
-            <span>Puntos de Interés</span></a
-          >
-        </li>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-map-marker-alt"></i>
+                <span>Puntos de Interés</span></a
+              >
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="punto-de-interes.php">Puntos de Interés</a>
+                    <a class="collapse-item" href="videos.php">Videos</a>
+                </div>
+            </div> 
+        </li> 
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
@@ -197,11 +203,6 @@ include('../function/setup.php');
                   "
                   aria-labelledby="userDropdown"
                 >
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Perfil
-                  </a>
-                  <div class="dropdown-divider"></div>
                   <a
                     class="dropdown-item"
                     href="#"
@@ -224,7 +225,7 @@ include('../function/setup.php');
             <!-- Page Heading -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h4 class="m-0 font-weight-bold text-primary">Galeria de la Empresa</h4>
+                <h4 class="m-0 font-weight-bold text-primary">Galeria</h4>
                 <h6 class="m-0 font-weight-bold text-primary"><?php echo $datoser['nombreEmpresa'] ?></h6>
               </div>
               <div class="card-body">

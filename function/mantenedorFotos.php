@@ -10,7 +10,7 @@ if(isset($_GET['act'])){
     }
 
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/galeria-empresa.php?id='.$_GET['id'].'&servicio='.$_GET['servicio'].'&rubro='.$_GET['rubro']);
+    header('Location:../admin/fotos.php?id='.$_GET['id'].'&servicio='.$_GET['servicio'].'&rubro='.$_GET['rubro']);
 
 }
 
@@ -18,7 +18,7 @@ if(isset($_GET['delete'])){
     
     $sql = "DELETE FROM galeriaempresa WHERE idgaleriaEmpresa=".$_GET['idfoto'];
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/galeria-empresa.php?id='.$_GET['id'].'&servicio='.$_GET['servicio'].'&rubro='.$_GET['rubro']);
+    header('Location:../admin/fotos.php?id='.$_GET['id'].'&servicio='.$_GET['servicio'].'&rubro='.$_GET['rubro']);
 
 }
 
@@ -32,7 +32,7 @@ if(isset($_GET['principal'])){
     }
 
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/galeria-empresa.php?id='.$_GET['id'].'&servicio='.$_GET['servicio'].'&rubro='.$_GET['rubro']);
+    header('Location:../admin/fotos.php?id='.$_GET['id'].'&servicio='.$_GET['servicio'].'&rubro='.$_GET['rubro']);
 
 }
 

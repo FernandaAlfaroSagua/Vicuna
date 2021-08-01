@@ -1,7 +1,7 @@
 function validar() {
-  if (document.form.descripcion.value == "") {
-    alert("Debe ingresar la descripcion");
-    document.form.descripcion.focus();
+  if (document.form.nombre.value == "") {
+    alert("Debe ingresar el link de youtube");
+    document.form.nombre.focus();
     return false;
   }
   if (document.form.estado.value == 2) {
@@ -11,6 +11,7 @@ function validar() {
   }
   return true;
 }
+
 function enviar(accion) {
   if (validar()) {
     document.form.accion_oculta.value = accion;

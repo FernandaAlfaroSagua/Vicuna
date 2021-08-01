@@ -18,3 +18,8 @@ function enviar(accion) {
     document.form.submit();
   }
 }
+
+function cancelar(accion) {
+  document.form.accion_oculta.value = accion;
+  document.form.submit();
+}

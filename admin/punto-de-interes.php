@@ -1,7 +1,7 @@
 <?php
 include('../function/setup.php');
 if (isset($_GET['id'])) {
-    $sqlser = "SELECT * FROM servicio WHERE idServicio=" . $_GET['id'];
+    $sqlser = "SELECT * FROM puntointeres WHERE idPuntointeres=" . $_GET['id'];
     $resultser = mysqli_query(conectar(), $sqlser);
     $datoser = mysqli_fetch_array($resultser);
 }
@@ -77,7 +77,7 @@ if (isset($_GET['id'])) {
         <div class="sidebar-heading">Mantenedores</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link" href="servicios.php">
             <i class="fas fa-fw fa-cogs"></i>
             <span>Servicios</span></a
@@ -121,7 +121,7 @@ if (isset($_GET['id'])) {
           >
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-map-marker-alt"></i>
@@ -129,7 +129,7 @@ if (isset($_GET['id'])) {
               >
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="punto-de-interes.php">Puntos de Interés</a>
+                    <a class="collapse-item active" href="punto-de-interes.php">Puntos de Interés</a>
                     <a class="collapse-item" href="videos.php">Videos</a>
                 </div>
             </div> 
@@ -173,8 +173,7 @@ if (isset($_GET['id'])) {
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-              
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -227,20 +226,42 @@ if (isset($_GET['id'])) {
             <!-- Page Heading -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Servicio</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Punto de Interes</h6>
               </div>
             <div class="card-body">
-              <form action="../function/ctrl_servicio.php" method="post" name="form">
+            <form action="../function/ctrl_interes.php" method="post" name="form">
                 <div class="mb-3">
-                  <label for="description">Descripcion</label>
-                  <input value="<?php if (isset($datoser)) { echo  $datoser['descripcionServicio'];} ?>" class="form-control" name="descripcion" id="description" type="text">
+                  <label for="descripcion">Descripción</label>
+                  <input value="<?php if (isset($datoser)) { echo  $datoser['descripcionPuntointeres'];} ?>" class="form-control" name="descripcion" id="descripcion" type="text">
+                </div>
+                <div class="mb-3">
+                    <label for="popular">Popularidad</label>
+                    <select class="form-control" id="popular" name="popular" >
+                        <option <?php if (isset($datoser)) {if ($datoser['popularPuntointeres'] == "1") { ?> selected <?php } } ?> value="1">&#11088;</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['popularPuntointeres'] == "2") { ?> selected <?php } } ?>  value="2">&#11088; &#11088;</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['popularPuntointeres'] == "3") { ?> selected <?php } } ?>  value="3">&#11088; &#11088; &#11088;</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['popularPuntointeres'] == "4") { ?> selected <?php } } ?>  value="4">&#11088; &#11088; &#11088; &#11088;</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['popularPuntointeres'] == "5") { ?> selected <?php } } ?>  value="5">&#11088; &#11088; &#11088; &#11088; &#11088;</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                  <label for="galeria">Galeria</label>
+                  <select class="form-control" id="galeria" name="galeria">
+                      <option value="0">Seleccione</option>
+                      <?php $sql="SELECT * FROM galeria WHERE estadoGaleria=1";
+                          $result = mysqli_query(conectar(), $sql);
+                          while ($datos = mysqli_fetch_array($result)) {             
+                      ?>                      
+                      <option <?php if (isset($_GET['galeria'])) {if ($_GET['galeria'] == $datos['idGaleria'] ) { ?> selected <?php } } ?>  value="<?php echo $datos['idGaleria'] ?>"><?php echo utf8_encode($datos['nombreGaleria']); ?></option>
+                      <?php }?>
+                  </select>
                 </div>
                 <div class="mb-3">
                     <label for="estado">Estado</label>
                     <select class="form-control" id="estado" name="estado" >
                         <option value="2">Seleccione</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoServicio'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoServicio'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoPuntointeres'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
+                        <option <?php if (isset($datoser)) {if ($datoser['estadoPuntointeres'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
                     </select>
                 </div>
                 <?php
@@ -268,7 +289,7 @@ if (isset($_GET['id'])) {
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Listado de Servicios</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Listado de Puntos de Intereses</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -277,41 +298,42 @@ if (isset($_GET['id'])) {
                                 <tr>
                                     <th>ID</th>
                                     <th>Descripcion</th>
+                                    <th>Popuaridad</th>
                                     <th>Estado</th>
-                                    <th>Acción</th> 
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
                                     <th>Descripcion</th>
+                                    <th>Popuaridad</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 <?php
-                                $sql = "SELECT * FROM servicio";
+                                $sql = "SELECT * FROM puntointeres";
                                 $result = mysqli_query(conectar(), $sql);
                                 while ($datos = mysqli_fetch_array($result)) 
                                 {
                                 ?>
                                 <tr>
-                                    <td><?php echo $datos['idServicio']; ?></td>
-                                    <td><?php echo $datos['descripcionServicio']; ?></td>
-                                    <?php if($datos['estadoServicio']=="1") { ?> 
+                                    <td><?php echo $datos['idPuntointeres']; ?></td>
+                                    <td><?php echo $datos['descripcionPuntointeres']; ?></td>
+                                    <td><?php echo $datos['popularPuntointeres']; ?></td>
+                                    <?php if($datos['estadoPuntointeres']=="1") { ?> 
                                       <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
                                     <?php } else { ?>  
                                         
                                         <td><i class="fas fa-window-close text-danger"></i></td>
                                         
-                                    <?php }; ?>
-                                    <td>
+                                    <?php }; ?>                                    <td>
                                       <div class="d-flex justify-content-around">
-                                        <a class="btn btn-success" href="servicios.php?id=<?php echo $datos['idServicio']; ?>" >
+                                        <a class="btn btn-success" href="punto-de-interes.php?id=<?php echo $datos['idPuntointeres']; ?>&galeria=<?php echo $datos['galeria_idGaleria']; ?>" >
                                           <i class="fas fa-pen"></i>
                                         </a>
-                      
                                         <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
                                       </div>
                                     </td>
@@ -337,7 +359,7 @@ if (isset($_GET['id'])) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="../function/ctrl_servicio.php" method="post">
+              <form action="../function/ctrl_interes.php" method="post">
                 <div class="modal-body">
                   <p>¿Esta seguro de cambiar el estado a inactivo?</p>
                   <input type="hidden" name="accion_oculta" value="Eliminar" />
@@ -354,24 +376,24 @@ if (isset($_GET['id'])) {
 
       </div>
     </div>
+    <script src="../js/validar-interes.js"></script> 
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    
+
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    
+
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="../js/validar-servicio.js"></script>
 
     <script>
       $(document).ready(function () {

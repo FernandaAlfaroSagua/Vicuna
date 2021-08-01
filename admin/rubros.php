@@ -121,13 +121,19 @@ if (isset($_GET['id'])) {
           >
         </li>
 
-        <!-- Nav Item - Charts -->
         <li class="nav-item">
-          <a class="nav-link" href="puntos-de-interes.php">
-            <i class="fas fa-fw fa-map-marker-alt"></i>
-            <span>Puntos de Interés</span></a
-          >
-        </li>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-map-marker-alt"></i>
+                <span>Puntos de Interés</span></a
+              >
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="punto-de-interes.php">Puntos de Interés</a>
+                    <a class="collapse-item" href="videos.php">Videos</a>
+                </div>
+            </div> 
+        </li> 
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
@@ -198,11 +204,6 @@ if (isset($_GET['id'])) {
                   "
                   aria-labelledby="userDropdown"
                 >
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Perfil
-                  </a>
-                  <div class="dropdown-divider"></div>
                   <a
                     class="dropdown-item"
                     href="#"
@@ -250,7 +251,6 @@ if (isset($_GET['id'])) {
                 } else {
                 ?>
                     <input type="button" class="btn btn-warning" value="Actualizar" onclick="enviar(this.value)">
-                    <input type="button" class="btn btn-danger" value="Eliminar" onclick="enviar(this.value)">
                     <input type="hidden" name="id_oculto" value="<?php echo $_GET['id']; ?>">
                 <?php
                 }
@@ -306,13 +306,10 @@ if (isset($_GET['id'])) {
                                         
                                     <?php }; ?>                                    <td>
                                       <div class="d-flex justify-content-around">
-                                        <a href="rubros.php?id=<?php echo $datos['idRubro']; ?>" >
+                                        <a class="btn btn-success" href="rubros.php?id=<?php echo $datos['idRubro']; ?>" >
                                           <i class="fas fa-pen"></i>
                                         </a>
-                      
-                                        <a href="rubros.php?id=<?php echo $datos['idRubro']; ?>" >
-                                          <i class="fas fa-trash text-danger"></i>
-                                        </a>
+                                        <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
                                       </div>
                                     </td>
                                 </tr>
@@ -327,6 +324,30 @@ if (isset($_GET['id'])) {
 
         </div>
         <!-- /.container-fluid -->
+
+        <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="../function/ctrl_rubro.php" method="post">
+                <div class="modal-body">
+                  <p>¿Esta seguro de cambiar el estado a inactivo?</p>
+                  <input type="hidden" name="accion_oculta" value="Eliminar" />
+                  <input type="hidden" name="id_oculto" id="id_oculto">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -349,5 +370,22 @@ if (isset($_GET['id'])) {
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
+    <script>
+      $(document).ready(function () {
+        $(".deletebtn").on("click", function () {
+          $("#deletemodal").modal("show");
+          $tr = $(this).closest("tr");
+          var data = $tr
+            .children("td")
+            .map(function () {
+              return $(this).text();
+            })
+            .get();
+
+          console.log(data);
+          $("#id_oculto").val(data[0]);
+        });
+      });
+    </script>
   </body>
 </html>

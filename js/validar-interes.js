@@ -4,6 +4,13 @@ function validar() {
     document.form.descripcion.focus();
     return false;
   }
+
+  if (document.form.galeria.value == 0) {
+    alert("Debe seleccionar la galeria");
+    document.form.galeria.focus();
+    return false;
+  }
+
   if (document.form.estado.value == 2) {
     alert("Debe seleccionar el estado");
     document.form.estado.focus();

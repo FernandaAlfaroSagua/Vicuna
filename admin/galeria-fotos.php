@@ -1,10 +1,8 @@
-<?php
+<?php 
 include('../function/setup.php');
-if (isset($_GET['id'])) {
-    $sqlser = "SELECT * FROM servicio WHERE idServicio=" . $_GET['id'];
-    $resultser = mysqli_query(conectar(), $sqlser);
-    $datoser = mysqli_fetch_array($resultser);
-}
+  $sqlser = "SELECT * FROM galeria WHERE idGaleria=" . $_GET['id'];
+  $resultser = mysqli_query(conectar(), $sqlser);
+  $datoser = mysqli_fetch_array($resultser);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,13 +75,13 @@ if (isset($_GET['id'])) {
         <div class="sidebar-heading">Mantenedores</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link" href="servicios.php">
             <i class="fas fa-fw fa-cogs"></i>
             <span>Servicios</span></a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item ">
           <a class="nav-link" href="rubros.php">
             <i class="fas fa-fw fa-id-card"></i>
             <span>Rubros</span></a
@@ -114,7 +112,7 @@ if (isset($_GET['id'])) {
         <!-- Heading -->
         <div class="sidebar-heading">Transaccionales</div>
 
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="galeria.php">
             <i class="fas fa-fw fa-images"></i>
             <span>Galeria de Fotos</span></a
@@ -227,168 +225,123 @@ if (isset($_GET['id'])) {
             <!-- Page Heading -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Servicio</h6>
+                <h4 class="m-0 font-weight-bold text-primary">Galeria</h4>
+                <h6 class="m-0 font-weight-bold text-primary"><?php echo $datoser['nombreGaleria'] ?></h6>
               </div>
-            <div class="card-body">
-              <form action="../function/ctrl_servicio.php" method="post" name="form">
-                <div class="mb-3">
-                  <label for="description">Descripcion</label>
-                  <input value="<?php if (isset($datoser)) { echo  $datoser['descripcionServicio'];} ?>" class="form-control" name="descripcion" id="description" type="text">
-                </div>
-                <div class="mb-3">
-                    <label for="estado">Estado</label>
-                    <select class="form-control" id="estado" name="estado" >
-                        <option value="2">Seleccione</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoServicio'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoServicio'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
-                    </select>
-                </div>
-                <?php
-                    if (!isset($_GET['id'])) {
-                ?>
-                    <input type="button" class="btn btn-success"  value="Ingresar" onclick="enviar(this.value)">
-                    
-                <?php
-                } else {
-                ?>
-                    <input type="button" class="btn btn-warning" value="Actualizar" onclick="enviar(this.value)">
-                    <input type="hidden" name="id_oculto" value="<?php echo $_GET['id']; ?>">
-                <?php
-                }
-                ?>
-                    <input type="hidden" name="accion_oculta" />
-                    <input type="button" class="btn btn-secondary" value="Cancelar" onclick="cancelar(this.value)">
+              <div class="card-body">
+              <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#form">
+                <i class="fas fa-plus-circle"></i> Subir Foto
+              </button>  
+                <div class="row">
 
-            </form>
-            </div>
+                <?php
+                              $sql = "select * from fotosgaleria where galeria_idGaleria=". $_GET['id'];
+                              $result = mysqli_query(conectar(), $sql);
+                              while ($datos = mysqli_fetch_array($result)) {
+                              ?>
+                                <div class="col-md-4 col-12">
+                                    <div class="card card-text-top card-gradient-top card-inverse text-top">
+                                    <img src="../galeria/<?php echo $datos['nombrefotoGaleria'];?>" alt="" class="card-img-top" >
+                                    <div class="card-body text-center">
+                                    <?php
+                                      if($datos['estadofotoGaleria']==1){
+
+                                    ?>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &act=0 &id=<?php echo $_GET['id']?>"><img src="../img/activo.png" alt="Desactivar"></a>
+                                    <?php
+                                    } else {
+                                    ?>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &act=1 &id=<?php echo $_GET['id']?>" id="inactivo"><img id="foto" src="../img/inactivo.png" alt="Activar"></a>
+                                    <?php 
+                                    }
+                                    if($datos['principalfotoGaleria']==1){
+                                    ?>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &estado=<?php echo $datos['estadofotoGaleria']; ?> &principal=0&id=<?php echo $_GET['id']?>"><img src="../img/principal.png" alt="No Principal"></a>
+                                    <?php
+                                    } else {
+                                    ?>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &estado=<?php echo $datos['estadofotoGaleria']; ?> & principal=1&id=<?php echo $_GET['id']?>"><img src="../img/noprincipal.png" alt="Principal"></a>
+                                    <?php
+                                    }
+
+                                    if($datos['principalfotoGaleria']==0)
+                                    {
+                                    ?>
+                                    <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> & delete=1 &id=<?php echo $_GET['id']?>"><img src="../img/remove.png" alt="Eliminar"></a>
+
+                                    <?php
+                                    }
+                                    ?>
+                                    </div>
+                                    </div>
+                                 </div>
+                          <?php
+                            }
+                          ?> 
+
+                </div>
+                
+              </div>
+          
             </div>
             
-            
-
-            <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Listado de Servicios</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Descripcion</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th> 
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Descripcion</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <?php
-                                $sql = "SELECT * FROM servicio";
-                                $result = mysqli_query(conectar(), $sql);
-                                while ($datos = mysqli_fetch_array($result)) 
-                                {
-                                ?>
-                                <tr>
-                                    <td><?php echo $datos['idServicio']; ?></td>
-                                    <td><?php echo $datos['descripcionServicio']; ?></td>
-                                    <?php if($datos['estadoServicio']=="1") { ?> 
-                                      <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
-                                    <?php } else { ?>  
-                                        
-                                        <td><i class="fas fa-window-close text-danger"></i></td>
-                                        
-                                    <?php }; ?>
-                                    <td>
-                                      <div class="d-flex justify-content-around">
-                                        <a class="btn btn-success" href="servicios.php?id=<?php echo $datos['idServicio']; ?>" >
-                                          <i class="fas fa-pen"></i>
-                                        </a>
-                      
-                                        <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
-                                      </div>
-                                    </td>
-                                </tr>
-                                <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
+          
         </div>
         <!-- /.container-fluid -->
 
-        <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+        <!-- modal -->
+        <div class="modal fade" id="form"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+              <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="exampleModalLabel">Subir Fotos</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="../function/ctrl_servicio.php" method="post">
+              <form action="../function/ctrl_fotos-galeria.php" method="post"  name="form" enctype="multipart/form-data">
                 <div class="modal-body">
-                  <p>¿Esta seguro de cambiar el estado a inactivo?</p>
-                  <input type="hidden" name="accion_oculta" value="Eliminar" />
-                  <input type="hidden" name="id_oculto" id="id_oculto">
+                  <div class="form-group">
+                    <label for="img">Seleccionar Fotos</label>
+                    <input type="hidden" name="accion_oculta" />
+                    <input type="hidden" name="id_oculta" value="<?php echo $_GET['id'];?>"/>
+                    <input
+                          type="file"
+                          id="fotos"
+                          class="form-control"
+                          name="fotos[]"
+                          multiple
+                    />
+                  </div>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                <input type="button" class="btn btn-success" id="registrar" value="Ingresar" onclick="enviar(this.value)">
                 </div>
               </form>
             </div>
           </div>
         </div>
-
+        <!-- modal -->
       </div>
     </div>
 
+    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    
+
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    
+
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="../js/validar-servicio.js"></script>
-
-    <script>
-      $(document).ready(function () {
-        $(".deletebtn").on("click", function () {
-          $("#deletemodal").modal("show");
-          $tr = $(this).closest("tr");
-          var data = $tr
-            .children("td")
-            .map(function () {
-              return $(this).text();
-            })
-            .get();
-
-          console.log(data);
-          $("#id_oculto").val(data[0]);
-        });
-      });
-    </script>
+    <script src="../js/validar-galeria.js"></script>
   </body>
 </html>
