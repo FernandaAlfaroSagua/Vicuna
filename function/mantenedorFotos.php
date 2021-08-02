@@ -24,9 +24,7 @@ if(isset($_GET['delete'])){
 
 if(isset($_GET['principal'])){
     if($_GET['principal']==1 && $_GET['estado']==1){
-        $sql = "UPDATE galeriaempresa SET principal=0 WHERE empresa_idEmpresa=".$_GET['id'];
-        mysqli_query(conectar(), $sql);
-        $sql = "UPDATE galeriaempresa SET principal=1 WHERE idgaleriaEmpresa=".$_GET['idfoto'];
+        $sql = "UPDATE galeriaempresa SET principal=1 WHERE idgaleriaEmpresa=".$_GET['idfoto'];;
     } else {
         $sql = "UPDATE galeriaempresa SET principal=0 WHERE idgaleriaEmpresa=".$_GET['idfoto'];
     }

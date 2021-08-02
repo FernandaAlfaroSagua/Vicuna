@@ -40,7 +40,7 @@ function insertar()
          
       }
 
-    header('Location:../admin/galeria-empresa.php?id='.$_POST['id_oculta'].'&servicio='.$_POST['servicio_oculta'].'&rubro='.$_POST['rubro_oculta']);
+    header('Location:../admin/fotos.php?id='.$_POST['id_oculta'].'&servicio='.$_POST['servicio_oculta'].'&rubro='.$_POST['rubro_oculta']);
    
 }
 

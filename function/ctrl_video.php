@@ -11,35 +11,48 @@ switch ($_POST['accion_oculta']) {
     case 'Eliminar':
         delete();
         break;
-    case 'Cancelar':
-        cancel();
+    case 'show':
+        show();
         break;
 }
 
 function insertar()
 {
-    $sql ="INSERT INTO multimediavideo SET  linkyoutubeMultimedia='" . $_POST['nombre'] . "', estadoMultimedia='" . $_POST['estado'] . "'";
+    $sql ="INSERT INTO multimediavideo SET  linkyoutubeMultimedia='" . $_POST['link'] . "', estadoMultimedia='" . $_POST['estado'] . "'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/videos.php');
    
 }
 
 function update(){
-    $sql ="UPDATE multimediavideo SET  linkyoutubeMultimedia='" . $_POST['nombre'] . "', estadoMultimedia='" . $_POST['estado'] . "' WHERE idMultimediavideo='".$_POST['id_oculto']."'";
+    $sql ="UPDATE multimediavideo SET  linkyoutubeMultimedia='" . $_POST['link'] . "', estadoMultimedia='" . $_POST['estado'] . "' WHERE idMultimediavideo='".$_POST['id']."'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/videos.php');
 }
 
 function delete(){
-    $sql = "UPDATE multimediavideo SET estadoMultimedia=0  WHERE idMultimediavideo= '" . $_POST['id_oculto'] . "' ";
+    $sql = "UPDATE multimediavideo SET estadoMultimedia=0  WHERE idMultimediavideo= '" . $_POST['id'] . "' ";
     mysqli_query(conectar(), $sql);
 
-    header('Location:../admin/videos.php');
 }
 
-function cancel(){
+function show()
+{
+    $return_arr = array();
+    $sqlser = "SELECT * FROM multimediavideo WHERE estadoMultimedia=1 or estadoMultimedia=0";
+    $resultser = mysqli_query(conectar(), $sqlser);
 
-    header('Location:../admin/videos.php');
+    while ($datos = mysqli_fetch_array($resultser)) {
+        $idMultimediavideo = $datos['idMultimediavideo'];
+        $linkyoutubeMultimedia = $datos['linkyoutubeMultimedia'];
+        $estado = $datos['estadoMultimedia'];
+
+        $return_arr[] = array(
+            "idMultimediavideo" => $idMultimediavideo,
+            "linkyoutubeMultimedia" => $linkyoutubeMultimedia,
+            "estadoMultimedia" => $estado
+        );
+    }
+    echo json_encode($return_arr);
 }
+
 
 ?>

@@ -22,12 +22,20 @@ if (isset($_GET['id'])) {
     <link rel="shortcut icon" type="image/ico" href="../img/logo.ico" />
 
 
-    <!-- Custom fonts for this template-->
-    <link
-      href="vendor/fontawesome-free/css/all.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+        <!-- Custom fonts for this template-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+
+<!-- sweet alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.all.min.js"
+      integrity="sha512-LXVbtSLdKM9Rpog8WtfAbD3Wks1NSDE7tMwOW3XbQTPQnaTrpIot0rzzekOslA1DVbXSVzS7c/lWZHRGkn3Xpg=="
+      crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.min.css"
+      integrity="sha512-A374yR9LJTApGsMhH1Mn4e9yh0ngysmlMwt/uKPpudcFwLNDgN3E9S/ZeHcWTbyhb5bVHCtvqWey9DLXB4MmZg=="
+      crossorigin="anonymous" />
     <link
       href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
       rel="stylesheet"
@@ -229,35 +237,32 @@ if (isset($_GET['id'])) {
                 <h6 class="m-0 font-weight-bold text-primary">Multimedia Video</h6>
               </div>
             <div class="card-body">
-            <form action="../function/ctrl_video.php" method="post" name="form">
+            <form>
                 <div class="mb-3">
-                  <label for="nombre">Link de Youtube</label>
-                  <input value="<?php if (isset($datoser)) { echo  $datoser['linkyoutubeMultimedia'];} ?>" class="form-control" name="nombre" id="nombre" type="text">
+                  <label for="link">Link de Youtube</label>
+                  <div id="frm_link">
+                    <input class="form-control" id="link" name="link" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
                 </div>
                 <div class="mb-3">
-                    <label for="estado">Estado</label>
-                    <select class="form-control" id="estado" name="estado" >
-                        <option value="2">Seleccione</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoMultimedia'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoMultimedia'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
+                  <label for="estado">Estado</label>
+                  <div id="frm_estado">
+                    <select class="form-control" id="estado" name="estado">
+                      <option value="">Seleccione</option>
+                      <option value="1">Activo</option>
+                      <option value="0">Inactivo</option>
                     </select>
+                    <div class="invalid-feedback"></div>
+                  </div>
                 </div>
-                <?php
-                    if (!isset($_GET['id'])) {
-                ?>
-                    <input type="button" class="btn btn-success"  value="Ingresar" onclick="enviar(this.value)">
-                    
-                <?php
-                } else {
-                ?>
-                    <input type="button" class="btn btn-warning" value="Actualizar" onclick="enviar(this.value)">
-                    <input type="hidden" name="id_oculto" value="<?php echo $_GET['id']; ?>">
-                <?php
-                }
-                ?>
-                    <input type="hidden" name="accion_oculta" />
-                    <input type="button" class="btn btn-secondary" value="Cancelar" onclick="cancelar(this.value)">
-
+                <button class="btn btn-success" type="button" value="Ingresar" onclick="enviar(this.value);" name="ingresar" id="ingresar">Ingresar</button>
+                  <button class="btn" type="button" style="display: none" value="Eliminar" name="eliminar" id="eliminar" >Eliminar</button>
+                  <button class="btn btn-warning" style="display: none" type="button" value="Update" name="update"  onclick="enviar(this.value);"  id="update">Modificar</button>
+               
+                  <a href="videos.php">
+                  <input type="hidden" name="accion_oculta" id="accion_oculta" />
+                  <button class="btn btn-secondary" onclick="limpiar();" type="button">Cancelar</button></a>
             </form>
             </div>
             </div>
@@ -271,52 +276,16 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTableVideo" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Link Youtube</th>
                                     <th>Estado</th>
-                                    <th>Acción</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Link Youtube</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <?php
-                                $sql = "SELECT * FROM multimediavideo";
-                                $result = mysqli_query(conectar(), $sql);
-                                while ($datos = mysqli_fetch_array($result)) 
-                                {
-                                ?>
-                                <tr>
-                                    <td><?php echo $datos['idMultimediavideo']; ?></td>
-                                    <td><?php echo $datos['linkyoutubeMultimedia']; ?></td>
-                                    <?php if($datos['estadoMultimedia']=="1") { ?> 
-                                      <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
-                                    <?php } else { ?>  
-                                        
-                                        <td><i class="fas fa-window-close text-danger"></i></td>
-                                        
-                                    <?php }; ?>                                    <td>
-                                      <div class="d-flex justify-content-around">
-                                        <a class="btn btn-success" href="videos.php?id=<?php echo $datos['idMultimediavideo']; ?>" >
-                                          <i class="fas fa-pen"></i>
-                                        </a>
-                                        <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
-                                      </div>
-                                    </td>
-                                </tr>
-                                <?php
-                                }
-                                ?>
-                            </tbody>
+                            </thead>                           
                         </table>
                     </div>
                 </div>
@@ -325,67 +294,25 @@ if (isset($_GET['id'])) {
         </div>
         <!-- /.container-fluid -->
 
-        <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form action="../function/ctrl_video.php" method="post">
-                <div class="modal-body">
-                  <p>¿Esta seguro de cambiar el estado a inactivo?</p>
-                  <input type="hidden" name="accion_oculta" value="Eliminar" />
-                  <input type="hidden" name="id_oculto" id="id_oculto">
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
-    <script src="../js/validar-link.js"></script> 
-
+    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+    
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+    
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
-    <script>
-      $(document).ready(function () {
-        $(".deletebtn").on("click", function () {
-          $("#deletemodal").modal("show");
-          $tr = $(this).closest("tr");
-          var data = $tr
-            .children("td")
-            .map(function () {
-              return $(this).text();
-            })
-            .get();
-
-          console.log(data);
-          $("#id_oculto").val(data[0]);
-        });
-      });
-    </script>
+    <script src="../js/link.js"></script> 
   </body>
 </html>

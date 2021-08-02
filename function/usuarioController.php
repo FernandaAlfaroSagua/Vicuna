@@ -46,9 +46,8 @@ function create()
     fechaCreacion='" . $fechaCreacion . "',
     horaCreacion='" . $horaCreacion . "',
     estado='" . $estado . "'";
-
     mysqli_query(conectar(), $sql);
-    header("Location:../admin/usuarios.php");
+    // header("Location:../admin/usuarios.php");
 }
 
 
@@ -93,7 +92,7 @@ function show()
             "nombreusuario" => $nombreusuario,
             "usuario" => $usuario,
             "clave" => $clave,
-            "fechacreacion" => fecha_espanol($fechacreacion),
+            "fechacreacion" => fechaHTML($fechacreacion),
             "horacreacion" => $horacreacion,
             "estado" => $estado
         );
@@ -113,11 +112,11 @@ function eliminar()
 
 
 function usuarioExistente()
-{
+{ 
     $usuario = $_POST['usuario'];
     $sqlser = "SELECT usuario FROM usuario WHERE usuario='" . $usuario . "'";
     $resultser = mysqli_query(conectar(), $sqlser);
     $num = mysqli_num_rows($resultser);
 
     echo $num;
-}
+} 

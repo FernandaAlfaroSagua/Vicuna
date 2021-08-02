@@ -11,8 +11,8 @@ switch ($_POST['accion_oculta']) {
     case 'Eliminar':
         delete();
         break;
-    case 'Cancelar':
-        cancel();
+    case 'show':
+        show();
         break;
 }
 
@@ -20,25 +20,35 @@ function insertar()
 {
     $sql ="INSERT INTO servicio SET  descripcionServicio='" . $_POST['descripcion'] . "', estadoServicio='" . $_POST['estado'] . "'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/servicios.php');
 }
 
 function update(){
-    $sql ="UPDATE servicio SET  descripcionServicio='" . $_POST['descripcion'] . "', estadoServicio='" . $_POST['estado'] . "' WHERE idServicio='".$_POST['id_oculto']."'";
+    $sql ="UPDATE servicio SET  descripcionServicio='" . $_POST['descripcion'] . "', estadoServicio='" . $_POST['estado'] . "' WHERE idServicio='".$_POST['id']."'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/servicios.php');
 }
 
 function delete(){
-    $sql = "UPDATE servicio SET estadoServicio=0  WHERE idServicio= '" . $_POST['id_oculto'] . "' ";
+    $sql = "UPDATE servicio SET estadoServicio=0  WHERE idServicio= '" . $_POST['id'] . "' ";
     mysqli_query(conectar(), $sql);
-
-    header('Location:../admin/servicios.php');
 }
+ 
+function show()
+{
+    $return_arr = array();
+    $sqlser = "SELECT * FROM servicio WHERE estadoServicio=1 or estadoServicio=0";
+    $resultser = mysqli_query(conectar(), $sqlser);
 
-function cancel(){
+    while ($datos = mysqli_fetch_array($resultser)) {
+        $idServicio = $datos['idServicio'];
+        $descripcionServicio = $datos['descripcionServicio'];
+        $estado = $datos['estadoServicio'];
 
-    header('Location:../admin/servicios.php');
+        $return_arr[] = array(
+            "idServicio" => $idServicio,
+            "descripcionServicio" => $descripcionServicio,
+            "estadoServicio" => $estado
+        );
+    }
+    echo json_encode($return_arr);
 }
-
 ?>

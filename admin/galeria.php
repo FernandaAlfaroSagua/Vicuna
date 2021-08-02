@@ -280,14 +280,6 @@ if (isset($_GET['id'])) {
                                     <th>Acción</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $sql = "SELECT * FROM galeria";

@@ -1,5 +1,5 @@
 <?php
-include("Models/funciones.php");
+include("../function/setup.php");
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,13 @@ include("Models/funciones.php");
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
 
-
+ <!-- sweet alert -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.all.min.js"
+        integrity="sha512-LXVbtSLdKM9Rpog8WtfAbD3Wks1NSDE7tMwOW3XbQTPQnaTrpIot0rzzekOslA1DVbXSVzS7c/lWZHRGkn3Xpg=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.min.css"
+        integrity="sha512-A374yR9LJTApGsMhH1Mn4e9yh0ngysmlMwt/uKPpudcFwLNDgN3E9S/ZeHcWTbyhb5bVHCtvqWey9DLXB4MmZg=="
+        crossorigin="anonymous" />
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet" />
@@ -177,7 +183,7 @@ include("Models/funciones.php");
             </div>
             <div class="card-body">
               <!-- FORM USUARIOS -->
-              <form action="../function/usuarioController.php" method="post">
+              <form>
                 <!-- NOMBRE -->
                 <div class="mb-3">
                   <label for="nombre">Nombre Completo</label>
@@ -254,7 +260,7 @@ include("Models/funciones.php");
               </div>
             </div>
           </div>
-
+ 
         </div>
         <!-- /.container-fluid -->
 

@@ -25,6 +25,6 @@ function fecha_bd($fecha)
 
 function fechaHTML($fecha){
     $newDate = date("d/m/Y", strtotime($fecha));
-    return $new_date; // Outputs: 31-03-2019
+    return $newDate; // Outputs: 31-03-2019
 }
 ?>

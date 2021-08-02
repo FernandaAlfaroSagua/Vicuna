@@ -177,7 +177,7 @@
                   aria-expanded="false"
                 >
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                    >Douglas McGee</span
+                    >nombreeeeeeeeeeeee</span
                   >
                   <img
                     class="img-profile rounded-circle"
@@ -784,5 +784,8 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
+    <!-- usuario -->
+     <!-- Scrip usuario -->
   </body>
 </html>

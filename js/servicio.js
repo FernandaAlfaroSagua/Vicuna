@@ -1,13 +1,13 @@
 // cuando se cargue la página se leera esto primero
 $(() => {
-  getUsers();
+  getServicio();
 });
 
 /*Funcion para recuperar a los usuarios*/
-getUsers = () => {
+getServicio = () => {
   $.ajax({
     type: "POST",
-    url: "../function/usuarioController.php",
+    url: "../function/ctrl_servicio.php",
     data: { accion_oculta: "show" },
     crossOrigin: false,
     dataType: "json",
@@ -30,23 +30,17 @@ getUsers = () => {
 };
 
 /*Constante para rellenar las filas de la tabla: usuarios --> se crea el datatable*/
-const tabla = $("#dataTableUsuario").DataTable({
+const tabla = $("#dataTableServicio").DataTable({
   language: {
     url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
   },
-  aoColumnDefs: [{ bVisible: false, aTargets: [3] }], // oculto la columna de la password
   columns: [
-    { data: "idUsuario" },
-    { data: "nombreusuario" },
-    { data: "usuario" },
-    { data: "clave" },
-    { data: "fechacreacion" },
-    { data: "horacreacion" },
-
+    { data: "idServicio" },
+    { data: "descripcionServicio" },
     {
-      defaultContent: "estado",
+      defaultContent: "estadoServicio",
       render: function (data, type, row) {
-        if (row.estado == 1) {
+        if (row.estadoServicio == 1) {
           return `<div class="text-center">
                             <i class="fas fa-check-square" style="color: #26d941"></i> Activo
                                     </div>`;
@@ -69,7 +63,7 @@ const tabla = $("#dataTableUsuario").DataTable({
                                 <button type='button' name='btn_delete'  value='Eliminar' class='btn''>
                                 
 								  <i class="fas fa-trash text-danger"></i>
-                                </button>
+                                </button> 
                               </div>`,
     },
   ],
@@ -79,68 +73,32 @@ const tabla = $("#dataTableUsuario").DataTable({
 let idEdit = 0;
 
 // funcion que nos trae el click en la datatable --> edit y eliminar
-$("#dataTableUsuario").on("click", "button", function () {
+$("#dataTableServicio").on("click", "button", function () {
   let data = tabla.row($(this).parents("tr")).data();
 
   if ($(this)[0].name == "btn_update") {
     cargarDatosEdit(data);
   } else if ($(this)[0].name == "btn_delete") {
-    eliminar(data.idUsuario);
+    eliminar(data.idServicio);
   }
 });
 
 // carga los datos de la datatable en el formulario
 function cargarDatosEdit(data) {
-  $("#nombreUsuario").val(data.nombreusuario);
-  $("#usuario").val(data.usuario);
-  $("#estado").val(data.estado);
-  $("#clave").val(data.clave);
+  $("#descripcion").val(data.descripcionServicio);
+  $("#estado").val(data.estadoServicio);
   $("#ingresar").hide();
   $("#update").show();
-  $("#clave").attr("readonly", true);
-  idEdit = data.idUsuario;
+  idEdit = data.idServicio;
 }
 
 // cambios en el nombre
-$("#nombreUsuario").change(() => {
-  let nombre = $("#nombreUsuario").val();
-  if (nombre) {
-    $("#frm_nombreUsuario > input").removeClass("is-invalid");
+$("#descripcion").change(() => {
+  let descripcion = $("#descripcion").val();
+  if (descripcion) {
+    $("#frm_descripcion > input").removeClass("is-invalid");
   } else {
-    $("#frm_nombreUsuario > input").addClass("is-invalid");
-  }
-});
-
-// cambios en el usuario
-$("#usuario").change(() => {
-  buscarUsuario();
-});
-
-// busca si el usuario ya esta registrado en el sistema
-function buscarUsuario() {
-  $.ajax({
-    type: "POST",
-    url: "../function/usuarioController.php", // ver donde ir en la ruta
-    data: { accion_oculta: "buscarUsuario", usuario: $("#usuario").val() },
-    success: function (response) {
-      // SI NO SE ENCUENTRAN DATOS EN LA BDD
-      if (response == 0) {
-        $("#frm_usuario > input").removeClass("is-invalid");
-      } else if (response == 1) {
-        $("#frm_usuario > input").addClass("is-invalid");
-        $("#frm_usuario > div").html("Usuario ya se encuentra registrado");
-      }
-    },
-  });
-}
-
-// cambios en la clave --> elimino o agrego el css de invalid
-$("#clave").change(() => {
-  let clave = $("#clave").val();
-  if (clave) {
-    $("#frm_clave > input").removeClass("is-invalid");
-  } else {
-    $("#frm_clave > input").addClass("is-invalid");
+    $("#frm_descripcion > input").addClass("is-invalid");
   }
 });
 
@@ -156,52 +114,20 @@ $("#estado").change(() => {
 
 // limpia los campos del formulario
 function limpiar() {
-  $("#nombreUsuario").val("");
-  $("#usuario").val("");
-  $("#clave").val("");
+  $("#descripcion").val("");
   $("#estado").val("");
   idEdit = 0;
 }
 
 // validar campos vacios
 function validar() {
-  var expRegEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-  //var expRegClave = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,}$/; // minimo una mayuscula, una minuscula mn 8 caracteres y simbolo
-  if ($("#nombreUsuario").val() == "") {
-    $("#frm_nombreUsuario > input").addClass("is-invalid");
-    $("#frm_nombreUsuario > div").html("Nombre es un campo requerido");
-    $("#nombreUsuario").focus();
+  if ($("#descripcion").val() == "") {
+    $("#frm_descripcion > input").addClass("is-invalid");
+    $("#frm_descripcion > div").html("Descripcion es un campo requerido");
+    $("#descripcion").focus();
 
     return false;
   }
-
-  if ($("#usuario").val() == "") {
-    $("#frm_usuario > input").addClass("is-invalid");
-    $("#frm_usuario > div").html("Usuario es un campo requerido");
-    $("#usuario").focus();
-    return false;
-  } else if (!expRegEmail.exec($("#usuario").val())) {
-    $("#frm_usuario > input").addClass("is-invalid");
-    $("#frm_usuario > div").html("Formato invalido");
-    $("#usuario").focus();
-    verificar = false;
-    return false;
-  }
-
-  if ($("#clave").val() == "") {
-    $("#frm_clave > input").addClass("is-invalid");
-    $("#frm_clave > div").html("Clave es un campo requerido");
-    $("#clave").focus();
-    return false;
-  }
-
-  // validar regular del clave
-  /*   else if (!expRegClave.exec($('#clave').val())) {
-        $('#frm_clave > input').addClass("is-invalid");
-        $('#frm_clave > div').html("clave debe ser alfanumerica de minimmo 8 caracteres con al menos una mayuscula y una minuscula ");
-        verificar = false;
-        return false;
-    } */
 
   if ($("#estado").val() == "") {
     $("#frm_estado > select").addClass("is-invalid");
@@ -242,11 +168,9 @@ function enviar(accion) {
 function create() {
   $.ajax({
     type: "POST",
-    url: "../function/usuarioController.php",
+    url: "../function/ctrl_servicio.php",
     data: {
-      nombre: $("#nombreUsuario").val(),
-      usuario: $("#usuario").val(),
-      clave: $("#clave").val(),
+      descripcion: $("#descripcion").val(),
       estado: $("#estado").val(),
       accion_oculta: "Ingresar",
     },
@@ -254,11 +178,11 @@ function create() {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Usuario registrado",
+        title: "Servicio registrado",
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        getUsers();
+        getServicio();
         limpiar();
       });
     },
@@ -269,18 +193,24 @@ function create() {
 function update() {
   $.ajax({
     type: "POST",
-    url: "../function/usuarioController.php",
+    url: "../function/ctrl_servicio.php",
     data: {
       id: idEdit,
-      nombre: $("#nombreUsuario").val(),
-      usuario: $("#usuario").val(),
-      clave: $("#clave").val(),
+      descripcion: $("#descripcion").val(),
       estado: $("#estado").val(),
-      accion_oculta: "Update",
+      accion_oculta: "Actualizar",
     },
     success: function (response) {
-      getUsers();
-      limpiar();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Servicio Modificado",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        getServicio();
+        limpiar();
+      });
     },
   });
 }
@@ -289,14 +219,14 @@ function update() {
 function eliminar(id) {
   $.ajax({
     type: "POST",
-    url: "../function/usuarioController.php",
+    url: "../function/ctrl_servicio.php",
     data: { id: id, accion_oculta: "Eliminar" },
     success: function (response) {
-      getUsers();
+      getServicio();
       limpiar();
     },
     error: () => {
-      alert("no se pudo eliminar el usuario");
+      alert("No se pudo eliminar el servicio");
     },
   });
 }

@@ -321,25 +321,6 @@ if (isset($_GET['id'])) {
                                     <th>Acción</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                  <th>ID</th>
-                                  <th>Nombre</th>
-                                  <th>Descripcion</th>
-                                  <th>Dirección</th>
-                                  <th>Telefono</th>
-                                  <th>Celular</th>
-                                  <th>Correo</th>
-                                  <th>Página Web</th>
-                                  <th>Facebook</th>
-                                  <th>Twitter</th>
-                                  <th>Instagram</th>
-                                  <th>Servicio</th>
-                                  <th>Rubo</th>
-                                  <th>Estado</th>
-                                  <th>Acción</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                             <?php
                                 $sql = "SELECT
