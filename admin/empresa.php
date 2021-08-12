@@ -1,10 +1,5 @@
 <?php
 include('../function/setup.php');
-if (isset($_GET['id'])) {
-    $sqlser = "SELECT * FROM empresa WHERE idEmpresa=" . $_GET['id'];
-    $resultser = mysqli_query(conectar(), $sqlser);
-    $datoser = mysqli_fetch_array($resultser);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +23,18 @@ if (isset($_GET['id'])) {
       rel="stylesheet"
       type="text/css"
     />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- sweet alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.all.min.js"
+      integrity="sha512-LXVbtSLdKM9Rpog8WtfAbD3Wks1NSDE7tMwOW3XbQTPQnaTrpIot0rzzekOslA1DVbXSVzS7c/lWZHRGkn3Xpg=="
+      crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.min.css"
+      integrity="sha512-A374yR9LJTApGsMhH1Mn4e9yh0ngysmlMwt/uKPpudcFwLNDgN3E9S/ZeHcWTbyhb5bVHCtvqWey9DLXB4MmZg=="
+      crossorigin="anonymous" />
     <link
       href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
       rel="stylesheet"
@@ -173,8 +180,7 @@ if (isset($_GET['id'])) {
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-              
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -230,64 +236,114 @@ if (isset($_GET['id'])) {
                 <h6 class="m-0 font-weight-bold text-primary">Empresa</h6>
               </div>
             <div class="card-body">
-              <form action="../function/ctrl_empresa.php" method="post" name="form">
-                <div class="mb-3"><label for="nombre">Nombre</label><input value="<?php if (isset($datoser)) { echo  $datoser['nombreEmpresa'];} ?>" class="form-control" id="nombre" type="text" name="nombre"></div>
-                <div class="mb-3"><label for="descripcion">Descripción</label><input value="<?php if (isset($datoser)) { echo  $datoser['descripcionEmpresa'];} ?>" class="form-control" id="descripcion" type="text" name="descripcion"></div>
-                <div class="mb-3"><label for="direccion">Dirección</label><input value="<?php if (isset($datoser)) { echo  $datoser['direccionEmpresa'];} ?>" class="form-control" id="direccion" type="text" name="direccion"></div>
-                <div class="mb-3"><label for="tel">Teléfono Fijo</label><input value="<?php if (isset($datoser)) { echo  $datoser['telefonofijoEmpresa'];} ?>" class="form-control" id="tel" type="tel" name="telefono"></div>
-                <div class="mb-3"><label for="cel">Teléfono Celular</label><input value="<?php if (isset($datoser)) { echo  $datoser['telefonocelularEmpresa'];} ?>" class="form-control" id="cel" type="tel" name="celular"></div>
-                <div class="mb-3"><label for="email">Email</label><input value="<?php if (isset($datoser)) { echo  $datoser['correoEmpresa'];} ?>" class="form-control" id="email" type="email" name="correo"></div>
-                <div class="mb-3"><label for="web">Página Web</label><input value="<?php if (isset($datoser)) { echo  $datoser['paginawebEmpresa'];} ?>" class="form-control" id="web" type="text" name="pagina"></div>
-                <div class="mb-3"><label for="facebook">Facebook</label><input value="<?php if (isset($datoser)) { echo  $datoser['rrssfacebookEmpresa'];} ?>" class="form-control" id="facebook" type="text" name="facebook"></div>
-                <div class="mb-3"><label for="twitter">Twitter</label><input value="<?php if (isset($datoser)) { echo  $datoser['rrsstwitterEmpresa'];} ?>" class="form-control" id="twitter" type="text" name="twitter"></div>
-                <div class="mb-3"><label for="instagram">Instagram</label><input value="<?php if (isset($datoser)) { echo  $datoser['rrssinstagramEmpresa'];} ?>" class="form-control" id="instagram" type="text" name="instagram"></div>
+            <form>
                 <div class="mb-3">
-                  <label for="servicio">Servicio</label><select class="form-control" id="servicio" name="servicio">
-                      <option value="0">Seleccione</option>
-                      <?php $sql="SELECT * FROM servicio WHERE estadoServicio=1";
-                          $result = mysqli_query(conectar(), $sql);
-                          while ($datos = mysqli_fetch_array($result)) {             
-                      ?>                      
-                      <option <?php if (isset($_GET['servicio'])) {if ($_GET['servicio'] == $datos['idServicio'] ) { ?> selected <?php } } ?>  value="<?php echo $datos['idServicio'] ?>"><?php echo utf8_encode($datos['descripcionServicio']); ?></option>
-                      <?php }?>
-                  </select>
+                  <label for="nombre">Nombre</label>
+                  <div id="frm_nombreEmpresa">
+                    <input class="form-control" name="nombreEmpresa" id="nombreEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
                 </div>
                 <div class="mb-3">
-                  <label for="rubro">Rubro</label><select class="form-control" id="rubro" name="rubro">
-                      <option value="0">Seleccione</option>
-                      <?php $sql="SELECT * FROM rubro WHERE estadoRubro=1";
-                          $result = mysqli_query(conectar(), $sql);
-                          while ($datos = mysqli_fetch_array($result)) {             
-                      ?>                      
-                      <option <?php if (isset($_GET['rubro'])) {if ($_GET['rubro'] == $datos['idRubro'] ) { ?> selected <?php } } ?>  value="<?php echo $datos['idRubro'] ?>"><?php echo utf8_encode($datos['nombreRubro']); ?></option>
-                      <?php }?>
-                  </select>
+                  <label for="descripcion">Descripcion</label>
+                  <div id="frm_descripcionEmpresa">
+                    <input class="form-control" name="descripcionEmpresa" id="descripcionEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="direccion">Dirección</label>
+                  <div id="frm_direccionEmpresa">
+                    <input class="form-control" name="direccionEmpresa" id="direccionEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="telefono">Telefono Fijo</label>
+                  <div id="frm_telefonoEmpresa">
+                    <input class="form-control" name="telefonoEmpresa" id="telefonoEmpresa" type="tel" maxlength="9">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="celular">Celular</label>
+                  <div id="frm_celularEmpresa">
+                    <input class="form-control" name="celularEmpresa" id="celularEmpresa" type="tel" placeholder="Ej 912345678" maxlength="9"
+                            minlength="9">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="email">Email</label>
+                  <div id="frm_emailEmpresa">
+                    <input class="form-control" name="emailEmpresa" id="emailEmpresa" type="email">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="web">Pagina Web</label>
+                  <div id="frm_webEmpresa">
+                    <input class="form-control" name="webEmpresa" id="webEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="facebook">Facebook</label>
+                  <div id="frm_facebookEmpresa">
+                    <input class="form-control" name="facebookEmpresa" id="facebookEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="twitter">Twitter</label>
+                  <div id="frm_twitterEmpresa">
+                    <input class="form-control" name="twitterEmpresa" id="twitterEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="instagram">Instagram</label>
+                  <div id="frm_instagramEmpresa">
+                    <input class="form-control" name="instagramEmpresa" id="instagramEmpresa" type="text">
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                    <label for="servicio">Servicio</label>
+                    <div id="frm_servicio">
+                      <select class="form-control" id="servicio" name="servicio">
+                        <option value="">Seleccione</option>
+                      </select>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="rubro">Rubro</label>
+                    <div id="frm_rubro">
+                      <select class="form-control" id="rubro" name="rubro">
+                        <option value="">Seleccione</option>
+                      </select>
+                      <div class="invalid-feedback"></div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="estado">Estado</label>
-                    <select class="form-control" id="estado" name="estado" >
-                        <option value="2">Seleccione</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoEmpresa'] == "1") { ?> selected <?php } } ?> value="1">Activo</option>
-                        <option <?php if (isset($datoser)) {if ($datoser['estadoEmpresa'] == "0") { ?> selected <?php } } ?> value="0">Inactivo</option>
-                    </select>
+                    <div id="frm_estado">
+                      <select class="form-control" id="estado" name="estado">
+                        <option value="">Seleccione</option>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                      </select>
+                      <div class="invalid-feedback"></div>
+                    </div>
                 </div>
-                <?php
-                    if (!isset($_GET['id'])) {
-                ?>
-                    <input type="button" class="btn btn-success"  value="Ingresar" onclick="enviar(this.value)">
-                    
-                <?php
-                } else {
-                ?>
-                    <input type="button" class="btn btn-warning" value="Actualizar" onclick="enviar(this.value)">
-                    <input type="button" class="btn btn-danger" value="Eliminar" onclick="enviar(this.value)">
-                    <input type="hidden" name="id_oculto" value="<?php echo $_GET['id']; ?>">
-                <?php
-                }
-                ?>
-                    <input type="hidden" name="accion_oculta" />
-                    <input type="button" class="btn btn-secondary" value="Cancelar" onclick="cancelar(this.value)">
-
+                <button class="btn btn-success" type="button" value="Ingresar" onclick="enviar(this.value);" name="ingresar" id="ingresar">Ingresar</button>
+                  <button class="btn" type="button" style="display: none" value="Eliminar" name="eliminar" id="eliminar" >Eliminar</button>
+                  <button class="btn btn-warning" style="display: none" type="button" value="Update" name="update"  onclick="enviar(this.value);"  id="update">Modificar</button>
+               
+                  <a href="empresa.php">
+                  <input type="hidden" name="accion_oculta" id="accion_oculta" />
+                  <button class="btn btn-secondary" onclick="limpiar();" type="button">Cancelar</button></a>
             </form>
             </div>
             </div>
@@ -301,7 +357,7 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTableEmpresa" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -316,64 +372,14 @@ if (isset($_GET['id'])) {
                                     <th>Twitter</th>
                                     <th>Instagram</th>
                                     <th>Servicio</th>
-                                    <th>Rubo</th>
+                                    <th>Rubro</th>
                                     <th>Estado</th>
-                                    <th>Acción</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                    <th>Galeria</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            <?php
-                                $sql = "SELECT
-                                rubro.nombreRubro,
-                                servicio.descripcionServicio,
-                                empresa.*
-                              FROM
-                                empresa
-                                INNER JOIN servicio ON empresa.servicio_idServicio =
-                              servicio.idServicio
-                                INNER JOIN rubro ON empresa.rubro_idRubro = rubro.idRubro";
-                                $result = mysqli_query(conectar(), $sql);
-                                while ($datos = mysqli_fetch_array($result)) 
-                                {
-                                ?>
-                                <tr>
-                                    <td><?php echo $datos['idEmpresa']; ?></td>
-                                    <td><?php echo $datos['nombreEmpresa']; ?></td>
-                                    <td><?php echo $datos['descripcionEmpresa']; ?></td>
-                                    <td><?php echo $datos['direccionEmpresa']; ?></td>
-                                    <td><?php echo $datos['telefonofijoEmpresa']; ?></td>
-                                    <td><?php echo $datos['telefonocelularEmpresa']; ?></td>
-                                    <td><?php echo $datos['correoEmpresa']; ?></td>
-                                    <td><?php echo $datos['paginawebEmpresa']; ?></td>
-                                    <td><?php echo $datos['rrssfacebookEmpresa']; ?></td>
-                                    <td><?php echo $datos['rrsstwitterEmpresa']; ?></td>
-                                    <td><?php echo $datos['rrssinstagramEmpresa']; ?></td>
-                                    <td><?php echo $datos['nombreRubro']; ?></td>
-                                    <td><?php echo $datos['descripcionServicio']; ?></td>
-                                    <?php if($datos['estadoEmpresa']=="1") { ?> 
-                                      <td><i class="fas fa-check-square" style="color: #26d941"></i></td>
-                                    <?php } else { ?>  
-                                        
-                                        <td><i class="fas fa-window-close text-danger"></i></td>
-                                        
-                                    <?php }; ?>                                    <td>
-                                      <div class="d-flex justify-content-around">
-                                        <a class="btn btn-success" href="empresa.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
-                                          <i class="fas fa-pen"></i>
-                                        </a>
-                      
-                                        <button type="button" class="deletebtn btn-danger btn"><i class="fas fa-trash"></i></button>
-
-                                        <a class="btn btn-dark" href="fotos.php?id=<?php echo $datos['idEmpresa'];?>&servicio=<?php echo $datos['servicio_idServicio']?>&rubro=<?php echo $datos['rubro_idRubro'] ?>" >
-                                          <i class="fas fa-images text-success"></i>
-                                        </a>
-                                      </div>
-                                    </td>
-                                </tr>
-                                <?php
-                                }
-                                ?>
-                            </tbody>
+                           
                         </table>
                     </div>
                 </div>
@@ -381,65 +387,26 @@ if (isset($_GET['id'])) {
 
         </div>
         <!-- /.container-fluid -->
-        <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form action="../function/ctrl_empresa.php" method="post">
-                <div class="modal-body">
-                  <p>¿Esta seguro de cambiar el estado a inactivo?</p>
-                  <input type="hidden" name="accion_oculta" value="Eliminar" />
-                  <input type="hidden" name="id_oculto" id="id_oculto">
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    
+
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    
+
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="../js/validar-empresa.js"></script>
-    <script>
-      $(document).ready(function () {
-        $(".deletebtn").on("click", function () {
-          $("#deletemodal").modal("show");
-          $tr = $(this).closest("tr");
-          var data = $tr
-            .children("td")
-            .map(function () {
-              return $(this).text();
-            })
-            .get();
 
-          console.log(data);
-          $("#id_oculto").val(data[0]);
-        });
-      });
-    </script>
+    <script src="../js/empresa.js"></script>
   </body>
 </html>

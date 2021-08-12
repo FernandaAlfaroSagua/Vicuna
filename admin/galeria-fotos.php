@@ -238,6 +238,8 @@ include('../function/setup.php');
                               $sql = "select * from fotosgaleria where galeria_idGaleria=". $_GET['id'];
                               $result = mysqli_query(conectar(), $sql);
                               while ($datos = mysqli_fetch_array($result)) {
+                                var_dump($sql);
+                                exit;
                               ?>
                                 <div class="col-md-4 col-12">
                                     <div class="card card-text-top card-gradient-top card-inverse text-top">
@@ -247,27 +249,27 @@ include('../function/setup.php');
                                       if($datos['estadofotoGaleria']==1){
 
                                     ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &act=0 &id=<?php echo $_GET['id']?>"><img src="../img/activo.png" alt="Desactivar"></a>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&act=0&id=<?php echo $_GET['id']?>"><img src="../img/activo.png" alt="Desactivar"></a>
                                     <?php
                                     } else {
                                     ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &act=1 &id=<?php echo $_GET['id']?>" id="inactivo"><img id="foto" src="../img/inactivo.png" alt="Activar"></a>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&act=1&id=<?php echo $_GET['id']?>" id="inactivo"><img id="foto" src="../img/inactivo.png" alt="Activar"></a>
                                     <?php 
                                     }
                                     if($datos['principalfotoGaleria']==1){
                                     ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &estado=<?php echo $datos['estadofotoGaleria']; ?> &principal=0&id=<?php echo $_GET['id']?>"><img src="../img/principal.png" alt="No Principal"></a>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&estado=<?php echo $datos['estadofotoGaleria']; ?>&principal=0&id=<?php echo $_GET['id']?>"><img src="../img/principal.png" alt="No Principal"></a>
                                     <?php
                                     } else {
                                     ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> &estado=<?php echo $datos['estadofotoGaleria']; ?> & principal=1&id=<?php echo $_GET['id']?>"><img src="../img/noprincipal.png" alt="Principal"></a>
+                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&estado=<?php echo $datos['estadofotoGaleria']; ?>&principal=1&id=<?php echo $_GET['id']?>"><img src="../img/noprincipal.png" alt="Principal"></a>
                                     <?php
                                     }
 
                                     if($datos['principalfotoGaleria']==0)
                                     {
                                     ?>
-                                    <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?> & delete=1 &id=<?php echo $_GET['id']?>"><img src="../img/remove.png" alt="Eliminar"></a>
+                                    <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&delete=1&id=<?php echo $_GET['id']?>"><img src="../img/remove.png" alt="Eliminar"></a>
 
                                     <?php
                                     }

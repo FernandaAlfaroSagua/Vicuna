@@ -2,7 +2,7 @@
 
 function conectar()
 {
-    $con = mysqli_connect("localhost", "root", "123456789", "vicuna_qr");
+    $con = mysqli_connect("localhost", "root", "", "vicuna_qr");
     return $con;
 }
 

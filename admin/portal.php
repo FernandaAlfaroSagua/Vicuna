@@ -98,13 +98,13 @@
         </li>
 
         <!-- Divider -->
-        <hr class="sidebar-divider" />
+        <hr class="sidebar-divider" /> 
 
         <!-- Heading -->
         <div class="sidebar-heading">Transaccionales</div>
 
         <li class="nav-item">
-          <a class="nav-link" href="galeria.pgp">
+          <a class="nav-link" href="galeria.php">
             <i class="fas fa-fw fa-images"></i>
             <span>Galeria de Fotos</span></a
           >

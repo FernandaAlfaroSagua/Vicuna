@@ -11,8 +11,8 @@ switch ($_POST['accion_oculta']) {
     case 'Eliminar':
         delete();
         break;
-    case 'Cancelar':
-        cancel();
+    case 'show':
+        show();
         break;
 }
 
@@ -20,26 +20,36 @@ function insertar()
 {
     $sql ="INSERT INTO galeria SET  nombreGaleria='" . $_POST['nombre'] . "', estadoGaleria='" . $_POST['estado'] . "'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/galeria.php');
    
 }
 
 function update(){
-    $sql ="UPDATE galeria SET  nombreGaleria='" . $_POST['nombre'] . "', estadoGaleria='" . $_POST['estado'] . "' WHERE idGaleria='".$_POST['id_oculto']."'";
+    $sql ="UPDATE galeria SET  nombreGaleria='" . $_POST['nombre'] . "', estadoGaleria='" . $_POST['estado'] . "' WHERE idGaleria='".$_POST['id']."'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/galeria.php');
 }
 
 function delete(){
-    $sql = "UPDATE galeria SET estadoGaleria=0  WHERE idGaleria= '" . $_POST['id_oculto'] . "' ";
+    $sql = "UPDATE galeria SET estadoGaleria=0  WHERE idGaleria= '" . $_POST['id'] . "'";
     mysqli_query(conectar(), $sql);
-
-    header('Location:../admin/galeria.php');
 }
 
-function cancel(){
+function show(){
+    $return_arr = array();
+    $sqlser = "SELECT * FROM galeria WHERE estadoGaleria=1 or estadoGaleria=0";
+    $resultser = mysqli_query(conectar(), $sqlser);
 
-    header('Location:../admin/galeria.php');
+    while ($datos = mysqli_fetch_array($resultser)) {
+        $idGaleria = $datos['idGaleria'];
+        $nombreGaleria = $datos['nombreGaleria'];
+        $estado = $datos['estadoGaleria'];
+
+        $return_arr[] = array(
+            "idGaleria" => $idGaleria,
+            "nombreGaleria" => $nombreGaleria,
+            "estadoGaleria" => $estado
+        );
+    }
+    echo json_encode($return_arr);
 }
 
 ?>

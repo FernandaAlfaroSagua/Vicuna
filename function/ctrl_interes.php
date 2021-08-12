@@ -11,8 +11,8 @@ switch ($_POST['accion_oculta']) {
     case 'Eliminar':
         delete();
         break;
-    case 'Cancelar':
-        cancel();
+    case 'show':
+        show();
         break;
 }
 
@@ -20,24 +20,40 @@ function insertar()
 {
     $sql ="INSERT INTO puntointeres SET  descripcionPuntointeres='" . $_POST['descripcion'] . "', popularPuntointeres='" . $_POST['popular'] . "', galeria_idGaleria='" . $_POST['galeria'] . "', estadoPuntointeres='" . $_POST['estado'] . "'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/punto-de-interes.php');
 }
 
 function update(){
-    $sql ="UPDATE puntointeres SET  descripcionPuntointeres='" . $_POST['descripcion'] . "', popularPuntointeres='" . $_POST['popular'] . "', galeria_idGaleria='" . $_POST['galeria'] . "',  estadoPuntointeres='" . $_POST['estado'] . "' WHERE idPuntointeres='".$_POST['id_oculto']."'";
+    $sql ="UPDATE puntointeres SET  descripcionPuntointeres='" . $_POST['descripcion'] . "', popularPuntointeres='" . $_POST['popular'] . "', galeria_idGaleria='" . $_POST['galeria'] . "',  estadoPuntointeres='" . $_POST['estado'] . "' WHERE idPuntointeres='".$_POST['id']."'";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/punto-de-interes.php');
 }
 
 function delete(){
-    $sql = "UPDATE puntointeres SET estadoPuntointeres=0  WHERE idPuntointeres= '" . $_POST['id_oculto'] . "' ";
+    $sql = "UPDATE puntointeres SET estadoPuntointeres=0  WHERE idPuntointeres= '" . $_POST['id'] . "' ";
     mysqli_query(conectar(), $sql);
-    header('Location:../admin/punto-de-interes.php');
 }
 
-function cancel(){
+function show()
+{
+    $return_arr = array();
+    $sqlser = "SELECT * FROM puntointeres WHERE estadoPuntointeres=1 or estadoPuntointeres=0";
+    $resultser = mysqli_query(conectar(), $sqlser);
 
-    header('Location:../admin/punto-de-interes.php');
+    while ($datos = mysqli_fetch_array($resultser)) {
+        $idPuntointeres = $datos['idPuntointeres'];
+        $descripcionPuntointeres = $datos['descripcionPuntointeres'];
+        $popularPuntointeres = $datos['popularPuntointeres'];
+        $galeria_idGaleria = $datos['galeria_idGaleria'];
+        $estado = $datos['estadoPuntointeres'];
+
+        $return_arr[] = array(
+            "idPuntointeres" => $idPuntointeres,
+            "descripcionPuntointeres" => $descripcionPuntointeres,
+            "popularPuntointeres" => $popularPuntointeres,
+            "galeria_idGaleria" => $galeria_idGaleria,
+            "estadoPuntointeres" => $estado
+        );
+    }
+    echo json_encode($return_arr);
 }
 
 ?>
