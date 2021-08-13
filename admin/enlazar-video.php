@@ -1,9 +1,3 @@
-<?php 
-include('../function/setup.php');
-  $sqlser = "SELECT * FROM galeria WHERE idGaleria=" . $_GET['id'];
-  $resultser = mysqli_query(conectar(), $sqlser);
-  $datoser = mysqli_fetch_array($resultser);
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,12 +14,20 @@ include('../function/setup.php');
     <link rel="shortcut icon" type="image/ico" href="../img/logo.ico" />
 
 
-    <!-- Custom fonts for this template-->
-    <link
-      href="vendor/fontawesome-free/css/all.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+        <!-- Custom fonts for this template-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+
+<!-- sweet alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.all.min.js"
+      integrity="sha512-LXVbtSLdKM9Rpog8WtfAbD3Wks1NSDE7tMwOW3XbQTPQnaTrpIot0rzzekOslA1DVbXSVzS7c/lWZHRGkn3Xpg=="
+      crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.min.css"
+      integrity="sha512-A374yR9LJTApGsMhH1Mn4e9yh0ngysmlMwt/uKPpudcFwLNDgN3E9S/ZeHcWTbyhb5bVHCtvqWey9DLXB4MmZg=="
+      crossorigin="anonymous" />
     <link
       href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
       rel="stylesheet"
@@ -36,6 +38,7 @@ include('../function/setup.php');
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
   </head>
 
   <body id="page-top">
@@ -81,7 +84,7 @@ include('../function/setup.php');
             <span>Servicios</span></a
           >
         </li>
-        <li class="nav-item ">
+        <li class="nav-item">
           <a class="nav-link" href="rubros.php">
             <i class="fas fa-fw fa-id-card"></i>
             <span>Rubros</span></a
@@ -112,14 +115,14 @@ include('../function/setup.php');
         <!-- Heading -->
         <div class="sidebar-heading">Transaccionales</div>
 
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="galeria.php">
             <i class="fas fa-fw fa-images"></i>
             <span>Galeria de Fotos</span></a
           >
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-map-marker-alt"></i>
@@ -129,7 +132,7 @@ include('../function/setup.php');
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="punto-de-interes.php">Puntos de Interés</a>
                     <a class="collapse-item" href="videos.php">Videos</a>
-                    <a class="collapse-item" href="enlazar-video.php">Enlazar Video</a>
+                    <a class="collapse-item active" href="enlazar-video.php">Enlazar Video</a>
                 </div>
             </div> 
         </li> 
@@ -181,8 +184,7 @@ include('../function/setup.php');
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-              
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -235,125 +237,98 @@ include('../function/setup.php');
             <!-- Page Heading -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h4 class="m-0 font-weight-bold text-primary">Galeria</h4>
-                <h6 class="m-0 font-weight-bold text-primary"><?php echo $datoser['nombreGaleria'] ?></h6>
+                <h6 class="m-0 font-weight-bold text-primary">Enlazar Punto de Interes con el Multimedia Video</h6>
               </div>
-              <div class="card-body">
-              <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#form">
-                <i class="fas fa-plus-circle"></i> Subir Foto
-              </button>  
-                <div class="row">
-
-                <?php
-                              $sql = "select * from fotosgaleria where galeria_idGaleria=". $_GET['id'];
-                              $result = mysqli_query(conectar(), $sql);
-                              while ($datos = mysqli_fetch_array($result)) {
-                                var_dump($sql);
-                                exit;
-                              ?>
-                                <div class="col-md-4 col-12">
-                                    <div class="card card-text-top card-gradient-top card-inverse text-top">
-                                    <img src="../galeria/<?php echo $datos['nombrefotoGaleria'];?>" alt="" class="card-img-top" >
-                                    <div class="card-body text-center">
-                                    <?php
-                                      if($datos['estadofotoGaleria']==1){
-
-                                    ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&act=0&id=<?php echo $_GET['id']?>"><img src="../img/activo.png" alt="Desactivar"></a>
-                                    <?php
-                                    } else {
-                                    ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&act=1&id=<?php echo $_GET['id']?>" id="inactivo"><img id="foto" src="../img/inactivo.png" alt="Activar"></a>
-                                    <?php 
-                                    }
-                                    if($datos['principalfotoGaleria']==1){
-                                    ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&estado=<?php echo $datos['estadofotoGaleria']; ?>&principal=0&id=<?php echo $_GET['id']?>"><img src="../img/principal.png" alt="No Principal"></a>
-                                    <?php
-                                    } else {
-                                    ?>
-                                      <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&estado=<?php echo $datos['estadofotoGaleria']; ?>&principal=1&id=<?php echo $_GET['id']?>"><img src="../img/noprincipal.png" alt="Principal"></a>
-                                    <?php
-                                    }
-
-                                    if($datos['principalfotoGaleria']==0)
-                                    {
-                                    ?>
-                                    <a href="../function/mantenedorGaleria.php?idfoto=<?php echo $datos['idfotosGaleria'];?>&delete=1&id=<?php echo $_GET['id']?>"><img src="../img/remove.png" alt="Eliminar"></a>
-
-                                    <?php
-                                    }
-                                    ?>
-                                    </div>
-                                    </div>
-                                 </div>
-                          <?php
-                            }
-                          ?> 
-
+            <div class="card-body">
+            <form>
+                <div class="mb-3">
+                  <label for="interes">Punto de Interes</label>
+                  <div id="frm_interes">
+                    <select class="form-control" id="interes" name="interes">
+                      <option value="">Seleccione</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                  </div>
                 </div>
-                
-              </div>
-          
+                <div class="mb-3">
+                  <label for="link">Video</label>
+                  <div id="frm_link">
+                    <select class="form-control" id="link" name="link">
+                      <option value="">Seleccione</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                    <label for="principal">¿Es el video principal?</label>
+                    <div id="frm_principal">
+                      <select class="form-control" id="principal" name="principal">
+                        <option value="">Seleccione</option>
+                        <option value="1">Si</option>
+                        <option value="0">No</option>
+                      </select>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <button class="btn btn-success" type="button" value="Ingresar" onclick="enviar(this.value);" name="ingresar" id="ingresar">Ingresar</button>
+                  <button class="btn" type="button" style="display: none" value="Eliminar" name="eliminar" id="eliminar" >Eliminar</button>
+                  <button class="btn btn-warning" style="display: none" type="button" value="Update" name="update"  onclick="enviar(this.value);"  id="update">Modificar</button>
+               
+                  <a href="enlazar-video.php">
+                  <input type="hidden" name="accion_oculta" id="accion_oculta" />
+                  <button class="btn btn-secondary" onclick="limpiar();" type="button">Cancelar</button></a>
+            </form>
+            </div>
             </div>
             
-          
+            
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Listado de videos enlazados a punto de interes</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTableVideo" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID Video</th>
+                                    <th>Link Youtube</th>
+                                    <th>ID Punto de Interes</th>
+                                    <th>Punto de Interes</th>
+                                    <th>Principal</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- /.container-fluid -->
 
-        <!-- modal -->
-        <div class="modal fade" id="form"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="exampleModalLabel">Subir Fotos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form action="../function/ctrl_fotos-galeria.php" method="post"  name="form" enctype="multipart/form-data">
-                <div class="modal-body">
-                  <div class="form-group">
-                    <label for="img">Seleccionar Fotos</label>
-                    <input type="hidden" name="accion_oculta" />
-                    <input type="hidden" name="id_oculta" value="<?php echo $_GET['id'];?>"/>
-                    <input
-                          type="file"
-                          id="fotos"
-                          class="form-control"
-                          name="fotos[]"
-                          multiple
-                    />
-                  </div>
-                </div>
-                <div class="modal-footer border-top-0 d-flex justify-content-center">
-                <input type="button" class="btn btn-success" id="registrar" value="Ingresar" onclick="enviar(this.value)">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- modal -->
       </div>
     </div>
-
     
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+    
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+    
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="../js/validar-galeria.js"></script>
+    <script src="../js/enlazar-video.js"></script> 
   </body>
 </html>
