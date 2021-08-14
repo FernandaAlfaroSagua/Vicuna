@@ -127,10 +127,12 @@ $("#calle").change(() => {
 
 // limpia los campos del formulario
 function limpiar() {
-  $("#empresa").val("");
+  $("#ubicacion").val("");
   $("#calle").val("");
   idqr = 0;
   idcalle = 0;
+  $("#ingresar").show();
+  $("#update").hide();
 }
 
 // validar campos vacios
@@ -220,20 +222,35 @@ function update() {
 
 // ajax delete
 function eliminar(qr, calle) {
-  $.ajax({
-    type: "POST",
-    url: "../function/ctrl_enlazar-calle.php",
-    data: {
-      ubicacion: qr,
-      calle: calle,
-      accion_oculta: "Eliminar",
+  Swal.fire({
+    title: "¿Seguro de eliminarlo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, eliminalo`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    success: function (response) {
-      getLista();
-      limpiar();
-    },
-    error: () => {
-      alert("No se pudo eliminar el enlace");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/ctrl_enlazar-calle.php",
+        data: {
+          ubicacion: qr,
+          calle: calle,
+          accion_oculta: "Eliminar",
+        },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getLista();
+          limpiar();
+        },
+        error: () => {
+          alert("No se pudo eliminar la relacion");
+        },
+      });
+    }
   });
 }

@@ -159,7 +159,9 @@ $("#principal").change(() => {
 function limpiar() {
   $("#link").val("");
   $("#interes").val("");
-  $("#estado").val("");
+  $("#principal").val("");
+  $("#ingresar").show();
+  $("#update").hide();
   idinteres = 0;
   idlink = 0;
   idprincipal = 0;
@@ -264,21 +266,36 @@ function update() {
 
 // ajax delete
 function eliminar(link, interes, principal) {
-  $.ajax({
-    type: "POST",
-    url: "../function/ctrl_enlazar-video.php",
-    data: {
-      interes: interes,
-      link: link,
-      principal: principal,
-      accion_oculta: "Eliminar",
+  Swal.fire({
+    title: "¿Seguro de eliminarlo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, eliminalo`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    success: function (response) {
-      getLista();
-      limpiar();
-    },
-    error: () => {
-      alert("No se pudo eliminar el enlace");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/ctrl_enlazar-video.php",
+        data: {
+          interes: interes,
+          link: link,
+          principal: principal,
+          accion_oculta: "Eliminar",
+        },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getLista();
+          limpiar();
+        },
+        error: () => {
+          alert("No se pudo eliminar el enlace");
+        },
+      });
+    }
   });
 }

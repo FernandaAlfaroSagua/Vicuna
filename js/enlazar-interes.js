@@ -130,8 +130,10 @@ $("#interes").change(() => {
 
 // limpia los campos del formulario
 function limpiar() {
-  $("#empresa").val("");
+  $("#ubicacion").val("");
   $("#interes").val("");
+  $("#ingresar").show();
+  $("#update").hide();
   idqr = 0;
   idinteres = 0;
 }
@@ -225,20 +227,35 @@ function update() {
 
 // ajax delete
 function eliminar(qr, interes) {
-  $.ajax({
-    type: "POST",
-    url: "../function/ctrl_enlazar-interes.php",
-    data: {
-      ubicacion: qr,
-      interes: interes,
-      accion_oculta: "Eliminar",
+  Swal.fire({
+    title: "¿Seguro de cambiar el estado a inactivo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, cambiar el estado`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    success: function (response) {
-      getLista();
-      limpiar();
-    },
-    error: () => {
-      alert("No se pudo eliminar el enlace");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/ctrl_enlazar-interes.php",
+        data: {
+          ubicacion: qr,
+          interes: interes,
+          accion_oculta: "Eliminar",
+        },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getLista();
+          limpiar();
+        },
+        error: () => {
+          alert("No se pudo eliminar el enlace");
+        },
+      });
+    }
   });
 }

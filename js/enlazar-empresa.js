@@ -129,6 +129,8 @@ $("#empresa").change(() => {
 function limpiar() {
   $("#empresa").val("");
   $("#ubicacion").val("");
+  $("#ingresar").show();
+  $("#update").hide();
   idqr = 0;
   idempresa = 0;
 }
@@ -222,20 +224,35 @@ function update() {
 
 // ajax delete
 function eliminar(qr, empresa) {
-  $.ajax({
-    type: "POST",
-    url: "../function/ctrl_enlazar-empresa.php",
-    data: {
-      ubicacion: qr,
-      empresa: empresa,
-      accion_oculta: "Eliminar",
+  Swal.fire({
+    title: "¿Seguro de eliminarlo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, eliminalo`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    success: function (response) {
-      getLista();
-      limpiar();
-    },
-    error: () => {
-      alert("No se pudo eliminar el enlace");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/ctrl_enlazar-empresa.php",
+        data: {
+          ubicacion: qr,
+          empresa: empresa,
+          accion_oculta: "Eliminar",
+        },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getLista();
+          limpiar();
+        },
+        error: () => {
+          alert("No se pudo eliminar el enlace");
+        },
+      });
+    }
   });
 }

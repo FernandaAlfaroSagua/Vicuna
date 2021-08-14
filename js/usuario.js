@@ -160,6 +160,8 @@ function limpiar() {
   $("#usuario").val("");
   $("#clave").val("");
   $("#estado").val("");
+  $("#ingresar").show();
+  $("#update").hide();
   idEdit = 0;
 }
 
@@ -279,24 +281,47 @@ function update() {
       accion_oculta: "Update",
     },
     success: function (response) {
-      getUsers();
-      limpiar();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Usuario Modificado",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        getUsers();
+        limpiar();
+      });
     },
   });
 }
 
 // ajax delete
 function eliminar(id) {
-  $.ajax({
-    type: "POST",
-    url: "../function/usuarioController.php",
-    data: { id: id, accion_oculta: "Eliminar" },
-    success: function (response) {
-      getUsers();
-      limpiar();
+  Swal.fire({
+    title: "¿Seguro de cambiar el estado a inactivo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, cambiar el estado`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    error: () => {
-      alert("no se pudo eliminar el usuario");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/usuarioController.php",
+        data: { id: id, accion_oculta: "Eliminar" },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getUsers();
+          limpiar();
+        },
+        error: () => {
+          alert("no se pudo eliminar el usuario");
+        },
+      });
+    }
   });
 }

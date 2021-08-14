@@ -297,6 +297,8 @@ function limpiar() {
   $("#servicio").val("");
   $("#rubro").val("");
   $("#estado").val("");
+  $("#ingresar").show();
+  $("#update").hide();
   idEdit = 0;
 }
 
@@ -515,16 +517,31 @@ function update() {
 
 // // ajax delete
 function eliminar(id) {
-  $.ajax({
-    type: "POST",
-    url: "../function/ctrl_empresa.php",
-    data: { id: id, accion_oculta: "Eliminar" },
-    success: function (response) {
-      getEmpresa();
-      limpiar();
+  Swal.fire({
+    title: "¿Seguro de cambiar el estado a inactivo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, cambiar el estado`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    error: () => {
-      alert("No se pudo eliminar el servicio");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/ctrl_empresa.php",
+        data: { id: id, accion_oculta: "Eliminar" },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getEmpresa();
+          limpiar();
+        },
+        error: () => {
+          alert("No se pudo eliminar la empresa");
+        },
+      });
+    }
   });
 }

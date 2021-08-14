@@ -267,8 +267,8 @@
                   <input type="hidden" name="accion_oculta" id="accion_oculta" />
                   <button class="btn btn-secondary" onclick="limpiar();" type="button">Cancelar</button></a>
             </form>
-            </div>
-            </div>
+          </div>
+        </div>
             
             
 

@@ -69,15 +69,12 @@ const tabla = $("#dataTableGaleria").DataTable({
 
     {
       render: function (data, type, row) {
-       
-          return `<div class="text-center">
+        return `<div class="text-center">
                       <a class="btn" href="galeria-fotos.php?id=${row.idGaleria}"><i class="fas fa-images" style="color: #26d941"></i></a>
                             
                   </div>`;
-
       },
-    }
-    
+    },
   ],
 });
 
@@ -128,6 +125,8 @@ $("#estado").change(() => {
 function limpiar() {
   $("#nombreGaleria").val("");
   $("#estado").val("");
+  $("#ingresar").show();
+  $("#update").hide();
   idEdit = 0;
 }
 
@@ -229,16 +228,31 @@ function update() {
 
 // ajax delete
 function eliminar(id) {
-  $.ajax({
-    type: "POST",
-    url: "../function/ctrl_galeria.php",
-    data: { id: id, accion_oculta: "Eliminar" },
-    success: function (response) {
-      getGaleria();
-      limpiar();
+  Swal.fire({
+    title: "¿Seguro de cambiar el estado a inactivo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: `Si, cambiar el estado`,
+    denyButtonText: `Cancelar`,
+    customClass: {
+      confirmButton: "order-2",
+      denyButton: "order-3",
     },
-    error: () => {
-      alert("No se pudo eliminar la galeria");
-    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "POST",
+        url: "../function/ctrl_galeria.php",
+        data: { id: id, accion_oculta: "Eliminar" },
+        success: function (response) {
+          Swal.fire("Guardado!", "", "success");
+          getGaleria();
+          limpiar();
+        },
+        error: () => {
+          alert("No se pudo eliminar la galeria");
+        },
+      });
+    }
   });
 }
