@@ -127,15 +127,6 @@
       </div>
     </div>
   </div> 
-    
-      <!-- <div class="intro">
-        <div class="text-box">
-          <h1 class="heading-primary">
-            <span class="heading-primary-main">Vicuña</span>
-            <span class="heading-primary-sub">Corazón del Valle del Elqui</span>
-          </h1>
-        </div>
-      </div> -->
       <div id="historia">
         <h2 class="heading-secondary-main mt-4">Historia</h2>
         <div class="row mx-4 pb-4">
@@ -257,7 +248,7 @@
         </div>
       </div>
       <div class="services-section" id="services">
-        <h2 class="heading-primary heading-first-main pt-3">Servicios</h2>
+        <h2 class="heading-primary heading-first-main py-3">Servicios</h2>
         <div class="owl-carousel owl-theme">
         <?php
           for ($i=1; $i < 11; $i++) { 
