@@ -447,8 +447,6 @@
                   items:4
               }
           }
-
-
       })
 
       $('.carousel').carousel({
