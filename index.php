@@ -1,3 +1,4 @@
+<?php include('function/setup.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -202,15 +203,27 @@
           <img src="./img/barra.png" >
         </div>
         <h2 class="heading-secondary-main py-3">Punto de Interes</h2>
-        <div class="owl-carousel owl-theme">
+        <div class="owl-carousel owl-theme mb-4">
         <?php
-          for ($i=1; $i < 11; $i++) { 
+        $sql="SELECT
+        `puntointeres`.*,
+        `fotosgaleria`.`principalfotoGaleria`,
+        `fotosgaleria`.`estadofotoGaleria`,
+        `fotosgaleria`.`nombrefotoGaleria`
+      FROM
+        `puntointeres`
+        INNER JOIN `galeria`
+      ON `galeria`.`idGaleria` = `puntointeres`.`galeria_idGaleria`
+        INNER JOIN `fotosgaleria` ON `galeria`.`idGaleria` =
+      `fotosgaleria`.`galeria_idGaleria` WHERE principalfotoGaleria=1 GROUP BY idPuntointeres";
+        $result = mysqli_query(conectar(), $sql);
+        while ($datos = mysqli_fetch_array($result)) { 
         ?>
               <div class="card">
-                <img src="./img/hero.jpg" class="card-img-top" alt="">
+                <img src="./galeria/<?php echo $datos['nombrefotoGaleria'] ?>" class="card-img-top" height="250px" alt="">
                 <div class="card-body">
-                  <h5 clas="card-title">Image Title</h5>
-                  <p>Description</p>
+                  <h5 clas="card-title"><?php echo $datos['descripcionPuntointeres'] ?></h5>
+                  <p><?php echo $datos['popularPuntointeres'] ?> estrellas</p>
                   <a href="details.php" class="btn btn-danger">Ver Detalles</a>
                 </div>
             </div>
@@ -251,7 +264,6 @@
         <h2 class="heading-primary heading-first-main py-3">Servicios</h2>
         <div class="owl-carousel owl-theme" id="servicio" >
         <?php
-        include('function/setup.php');
         $sql="SELECT * FROM servicio WHERE estadoServicio=1";
         $result = mysqli_query(conectar(), $sql);
         while ($datos = mysqli_fetch_array($result)) { 
