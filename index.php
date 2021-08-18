@@ -26,7 +26,7 @@
     />
     <link rel="stylesheet" href="./owl/owl.carousel.min.css">
     <link rel="stylesheet" href="./owl/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <header>
@@ -50,24 +50,24 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto" >
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Inicio
+            <a class="nav-link waves-effect waves-light" href="index.php">Inicio
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Historia
+            <a class="nav-link waves-effect waves-light" href="index.php?#historia">Historia
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Ubicaciones Populares
+            <a class="nav-link waves-effect waves-light" href="index.php?#location">Ubicaciones Populares
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Puntos de Interes
+            <a class="nav-link waves-effect waves-light" href="index.php?#interest">Puntos de Interes
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect mb-sm-3 waves-light" href="#">Servicios
+            <a class="nav-link waves-effect waves-light" href="index.php?#services">Servicios
             </a>
           </li>
         </ul>
@@ -249,23 +249,22 @@
       </div>
       <div class="services-section" id="services">
         <h2 class="heading-primary heading-first-main py-3">Servicios</h2>
-        <div class="owl-carousel owl-theme">
+        <div class="owl-carousel owl-theme" id="servicio" >
         <?php
-          for ($i=1; $i < 11; $i++) { 
+        include('function/setup.php');
+        $sql="SELECT * FROM servicio WHERE estadoServicio=1";
+        $result = mysqli_query(conectar(), $sql);
+        while ($datos = mysqli_fetch_array($result)) { 
         ?>
-              <div class="card">
-                <img src="./img/hero.jpg" class="card-img-top" alt="">
+            <div class="card">
                 <div class="card-body">
-                  <h5 clas="card-title">Image Title</h5>
-                  <p>Description</p>
-                  <a href="details.php" class="btn btn-danger">Ver Detalles</a>
+                  <h3 clas="card-title"><?php echo $datos['descripcionServicio'] ?></h3>
+                  <a href="servicios.php?id=<?php echo $datos['idServicio']; ?>" class="btn btn-danger">Ver Más</a>
                 </div>
             </div>
 
-            <?php } ?>
+        <?php } ?>
         </div>
-        <a href="search.php" class="btn-white">Ver Todas</a>
-
         <div class="barra-primera bg-white">
           <img src="./img/barra2.png" >
         </div> 
@@ -412,21 +411,8 @@
 </footer>
 <!-- Footer -->
     </main>
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <script src="./owl/owl.carousel.min.js"></script>
     <script>
       $('.owl-carousel').owlCarousel({

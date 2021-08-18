@@ -55,19 +55,19 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Historia
+            <a class="nav-link waves-effect waves-light" href="index.php?#historia">Historia
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Ubicaciones Populares
+            <a class="nav-link waves-effect waves-light" href="index.php?#location">Ubicaciones Populares
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Puntos de Interes
+            <a class="nav-link waves-effect waves-light" href="index.php?#interest">Puntos de Interes
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Servicios
+            <a class="nav-link waves-effect waves-light" href="index.php?#services">Servicios
             </a>
           </li>
         </ul>

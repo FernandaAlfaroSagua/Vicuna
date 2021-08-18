@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="author" content="Fernanda Alfaro - Mitzy Flores - Paola Pinnola - Vesna Marin" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Fernanda Alfaro - Mitzy Flores - Paola Pinnola - Vesna Marin" />
     <title>Vicuña</title>
     <link rel="shortcut icon" type="image/ico" href="./img/logo.ico" />
 
@@ -50,7 +50,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Inicio
+            <a class="nav-link waves-effect waves-light" href="index.php">Inicio
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -72,7 +72,7 @@
           </li>
         </ul>
         <ul class="list-inline ml-auto mr-4" id="social">
-          <li class="list-inline-item">
+        <li class="list-inline-item">
             <a href="https://www.youtube.com/channel/UCp3pridu6YCWod4oazXTucw" target="_blank" >
             <img src="./img/ico_youtube_gris.png" alt="" >
             </a>
@@ -105,28 +105,63 @@
     </nav>
     </header>
     <main role="main">
-    <div class="container">
-        <?php
-          for ($i=1; $i < 11; $i++) { 
+    <div class="container detalles my-4">
+      <?php
+          include('./function/setup.php');
+          $serv="SELECT * FROM empresa WHERE idEmpresa=".$_GET['id'];
+          $res = mysqli_query(conectar(), $serv);
+          $fila = mysqli_fetch_assoc($res);
         ?>
-         <div class="card my-4" style="width=100%">
-              <div class="row no-gutters">
-                  <div class="col-sm-5" style="background: #868e96;">
-                      <img src="./img/hero.jpg" class="card-img-top h-100" alt="...">
-                  </div>
-                  <div class="col-sm-7">
-                      <div class="card-body">
-                          <h5 class="card-title">Title</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non distinctio voluptatem ullam incidunt sint. Ab nostrum fuga perspiciatis at quas saepe repellat, voluptates, assumenda soluta magni, nihil fugiat. Id, laborum?</p>
-                          <a href="#" class="btn btn-danger stretched-link">Ver Detalles</a>
-                      </div>
-                  </div>
+      <div class="row mb-2">
+        <div class="col">
+          <h2 class="heading-color"><?php echo $fila['nombreEmpresa'] ?></h2>
+        </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12 col-sm-6">
+            <h3 class="subtitle heading-color">Descripción</h3>
+            <p><?php echo $fila['descripcionEmpresa'] ?></p>
+          </div>
+          <div class="col-12 col-sm-6">
+            <h3 class="subtitle heading-color">Contacto:</h3>
+            <p><?php echo $fila['telefonofijoEmpresa'] ?> - <?php echo $fila['telefonocelularEmpresa'] ?></p>
+            <p><a href="<?php echo $fila['paginawebEmpresa'] ?>"> <i class="fas fa-globe"></i> Visita la página web</a></p>
+            <h3 class="subtitle heading-color">Redes Sociales</h3>
+            <a href="<?php echo $fila['rrssfacebookEmpresa'] ?>">
+            <svg id="SvgjsSvg1001" width="50" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1002"></defs><g id="SvgjsG1008" transform="matrix(1,0,0,1,0,0)"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill-rule="evenodd" clip-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 123 123"><path fill="none" stroke="#a8a8a8" stroke-width="4.682" d="M62 121l0 0c-33,0 -60,-26 -60,-59l0 0c0,-33 27,-60 60,-60l0 0c33,0 59,27 59,60l0 0c0,33 -26,59 -59,59z" class="colorStrokefefefe svgStroke"></path><path fill="#a8a8a8" d="M53 98l14 0 0 -37 10 0 1 -12 -11 0c0,0 0,-4 0,-7 0,-2 1,-4 3,-4 3,0 8,0 8,0l0 -12c0,0 -8,0 -10,0 -10,0 -15,5 -15,14 0,8 0,9 0,9l-8 0 0 13 8 0 0 36z" class="colorfefefe svgShape"></path></svg></g></svg>
+            </a>
+            <a href="<?php echo $fila['rrsstwitterEmpresa'] ?>">
+            <svg id="SvgjsSvg1019" width="50" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1020"></defs><g id="SvgjsG1021"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill-rule="evenodd" clip-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 83 83"><path fill="none" stroke="#a8a8a8" stroke-width="3.155" d="M42 82l0 0c-22,0 -40,-18 -40,-40l0 0c0,-22 18,-40 40,-40l0 0c22,0 40,18 40,40l0 0c0,22 -18,40 -40,40z" class="colorStrokefefefe svgStroke"></path><path fill="#a8a8a8" d="M20 55c4,2 9,4 14,4 16,0 25,-14 25,-26 1,-1 3,-3 4,-5 -2,1 -3,2 -5,2 2,-1 3,-3 4,-5 -2,1 -4,2 -6,2 -1,-2 -4,-3 -6,-3 -6,0 -10,6 -9,11 -7,0 -13,-4 -18,-9 -2,4 -1,9 3,12 -1,0 -3,-1 -4,-2 0,5 3,8 7,9 -1,0 -3,1 -4,0 1,4 4,6 8,6 -3,3 -8,5 -13,4z" class="colorfefefe svgShape"></path></svg></g></svg>
+            </a>
+            <a href="<?php echo $fila['rrssinstagramEmpresa'] ?>">
+            <svg id="SvgjsSvg1012" width="50" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1013"></defs><g id="SvgjsG1014"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill-rule="evenodd" clip-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 99 99"><path fill="none" stroke="#a8a8a8" stroke-width="3.747" d="M49 97l0 0c-26,0 -47,-21 -47,-48l0 0c0,-26 21,-47 47,-47l0 0c27,0 48,21 48,47l0 0c0,27 -21,48 -48,48z" class="colorStrokefefefe svgStroke"></path><path fill="#a8a8a8" d="M49 23c-7,0 -8,0 -10,1 -3,0 -5,0 -7,1 -1,0 -3,1 -4,3 -2,1 -3,3 -3,4 -1,2 -1,4 -1,7 -1,2 -1,3 -1,10 0,8 0,8 1,11 0,3 0,5 1,7 0,1 1,3 3,4 1,2 3,2 4,3 2,1 4,1 7,1 2,0 3,0 10,0 8,0 8,0 11,0 3,0 5,0 7,-1 1,-1 3,-1 4,-3 2,-1 2,-3 3,-4 1,-2 1,-4 1,-7 0,-3 0,-3 0,-11 0,-7 0,-8 0,-10 0,-3 0,-5 -1,-7 -1,-1 -1,-3 -3,-4 -1,-2 -3,-3 -4,-3 -2,-1 -4,-1 -7,-1 -3,-1 -3,-1 -11,-1zm0 5c7,0 8,0 11,0 3,0 4,1 5,1 1,1 2,1 3,2 1,1 1,2 2,3 0,1 1,2 1,5 0,3 0,3 0,10 0,7 0,8 0,11 0,3 -1,4 -1,5 -1,1 -1,2 -2,3 -1,1 -2,1 -3,2 -1,0 -2,1 -5,1 -3,0 -4,0 -11,0 -7,0 -7,0 -10,0 -3,0 -4,-1 -5,-1 -1,-1 -2,-1 -3,-2 -1,-1 -1,-2 -2,-3 0,-1 -1,-2 -1,-5 0,-3 0,-4 0,-11 0,-7 0,-7 0,-10 0,-3 1,-4 1,-5 1,-1 1,-2 2,-3 1,-1 2,-1 3,-2 1,0 2,-1 5,-1 3,0 3,0 10,0z" class="colorfefefe svgShape"></path><path fill="#a8a8a8" d="M49 58c-4 0-8-4-8-9 0-4 4-8 8-8 5 0 9 4 9 8 0 5-4 9-9 9zm0-22c-7 0-13 6-13 13 0 8 6 14 13 14 8 0 14-6 14-14 0-7-6-13-14-13zM66 36c0 1-1 3-3 3-1 0-3-2-3-3 0-2 2-4 3-4 2 0 3 2 3 4z" class="colorfefefe svgShape"></path></svg></g></svg>
+            </a>
+          </div>
+        
+        </div>
+    
+      <div class="row mb-2">
+        <h3 class="subtitle heading-color">Ubicacion</h3>
+        <img class="w-100 my-2" src="./img/mapa.jpg" alt="">
+      </div>
+      <div class="row mb-2">
+          <h3 class="subtitle heading-color">Galería</h3>
+          <div class="post-container owl-carousel">
+          <?php
+          $sql="SELECT * FROM galeriaempresa WHERE estado=1 AND empresa_idEmpresa=".$_GET['id'];
+          $result = mysqli_query(conectar(), $sql);
+          while ($datos = mysqli_fetch_array($result)) { 
+          ?>
+          <div class="card">
+              <div class="card-image">
+              <img class="w-100" src="./galeriaempresa/<?php echo $datos['imagen'] ?>" alt="" />
               </div>
           </div>
-        <?php
+          <?php
           }
-        ?>
-
+          ?>
+        </div>
+      </div>
     </div>
       <!-- Footer -->
 <footer class="page-footer font-small blue pt-5">
@@ -271,7 +306,7 @@
   </div>
 </footer>
 <!-- Footer -->
-    </main> 
+    </main>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

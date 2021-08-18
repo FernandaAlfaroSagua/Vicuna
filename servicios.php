@@ -50,7 +50,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Inicio
+            <a class="nav-link waves-effect waves-light" href="index.php">Inicio
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -107,18 +107,35 @@
     <main role="main">
     <div class="container">
         <?php
-          for ($i=1; $i < 11; $i++) { 
+          include('function/setup.php');
+          $serv="SELECT * FROM servicio WHERE idServicio=".$_GET['id'];
+          $res = mysqli_query(conectar(), $serv);
+          $fila = mysqli_fetch_assoc($res);
+        ?>
+        <h2 class="mt-2"><?php echo $fila['descripcionServicio']; ?></h2>
+        <?php
+          $sql="SELECT
+          `galeriaempresa`.`imagen`,
+          `galeriaempresa`.`estado`,
+          `galeriaempresa`.`principal`,
+          `empresa`.*
+        FROM
+          `empresa`
+          INNER JOIN `galeriaempresa` ON `empresa`.`idEmpresa` =
+        `galeriaempresa`.`empresa_idEmpresa` WHERE principal=1 AND servicio_idServicio=".$_GET['id'];
+          $result = mysqli_query(conectar(), $sql);
+          while ($datos = mysqli_fetch_array($result)) { 
         ?>
          <div class="card my-4" style="width=100%">
               <div class="row no-gutters">
                   <div class="col-sm-5" style="background: #868e96;">
-                      <img src="./img/hero.jpg" class="card-img-top h-100" alt="...">
+                      <img src="./galeriaempresa/<?php echo $datos['imagen'] ?>" class="card-img-top h-100" alt="...">
                   </div>
                   <div class="col-sm-7">
                       <div class="card-body">
-                          <h5 class="card-title">Title</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non distinctio voluptatem ullam incidunt sint. Ab nostrum fuga perspiciatis at quas saepe repellat, voluptates, assumenda soluta magni, nihil fugiat. Id, laborum?</p>
-                          <a href="#" class="btn btn-danger stretched-link">Ver Detalles</a>
+                          <h5 class="card-title"><?php echo $datos['nombreEmpresa'] ?></h5>
+                          <p class="card-text"><?php echo $datos['descripcionEmpresa'] ?></p>
+                          <a href="empresa.php?id=<?php echo $datos['idEmpresa'] ?>" class="btn btn-danger stretched-link">Ver Detalles</a>
                       </div>
                   </div>
               </div>

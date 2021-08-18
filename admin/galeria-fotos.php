@@ -245,11 +245,9 @@ include('../function/setup.php');
                 <div class="row">
 
                 <?php
-                              $sql = "select * from fotosgaleria where galeria_idGaleria=". $_GET['id'];
+                              $sql = "SELECT * from fotosgaleria where galeria_idGaleria=". $_GET['id'];
                               $result = mysqli_query(conectar(), $sql);
                               while ($datos = mysqli_fetch_array($result)) {
-                                var_dump($sql);
-                                exit;
                               ?>
                                 <div class="col-md-4 col-12">
                                     <div class="card card-text-top card-gradient-top card-inverse text-top">
