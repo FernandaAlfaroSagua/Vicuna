@@ -45,6 +45,24 @@ include('../function/setup.php');
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src='https://cdn.tiny.cloud/1/3kfa30gxd9mzy6z1zb8dtgdp6a7wx0rpa0mm5gbxmru677vg/tinymce/5/tinymce.min.js' referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#descripcionEmpresa',
+        height: 200,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+      </script>
   </head>
 
   <body id="page-top">
@@ -257,7 +275,7 @@ include('../function/setup.php');
                 <div class="mb-3">
                   <label for="descripcion">Descripcion</label>
                   <div id="frm_descripcionEmpresa">
-                    <input class="form-control" name="descripcionEmpresa" id="descripcionEmpresa" type="text">
+                    <textarea name="descripcionEmpresa" id="descripcionEmpresa" cols="30" rows="10"></textarea>
                     <div class="invalid-feedback"></div>
                   </div>
                 </div>

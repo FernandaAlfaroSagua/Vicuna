@@ -177,32 +177,8 @@
       </div>
       <div class="locations-section" id="location">
       
-        <h2 class="heading-primary heading-first-main py-3">Ubicaciones Populares</h2>
+        <h2 class="heading-primary heading-first-main py-3">Punto de Interes</h2>
         
-        <div class="owl-carousel owl-theme container">
-        <?php
-          for ($i=1; $i < 11; $i++) { 
-        ?>
-              <div class="card">
-                <img src="./img/hero.jpg" class="card-img-top" alt="">
-                <div class="card-body">
-                  <h5 clas="card-title">Image Title</h5>
-                  <p>Description</p>
-                  <a href="details.php" class="btn btn-danger">Ver Detalles</a>
-                </div>
-            </div>
-
-            <?php } ?>
-        </div>
-        <a href="search.php" class="btn-white">Ver Todas</a>
-  
-      </div>
-
-      <div class="interest-section" id="interest">
-      <div class="barra-segunda bg-white">
-          <img src="./img/barra.png" >
-        </div>
-        <h2 class="heading-secondary-main py-3">Punto de Interes</h2>
         <div class="owl-carousel owl-theme mb-4 container">
         <?php
         $sql="SELECT
@@ -229,8 +205,8 @@
 
             <?php } ?>
         </div>
-        <a href="search.php" class="btn-green">Ver Todas</a>
-        <div class="barra-primera">
+        <a href="search.php" class="btn-white">Ver Todas</a>
+        <div class="barra-primera bg-white">
           <img src="./img/barra.png" >
         </div>
       </div>
