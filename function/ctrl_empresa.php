@@ -41,8 +41,8 @@ function show(){
 
     while ($datos = mysqli_fetch_array($resultser)) {
         $idEmpresa = $datos['idEmpresa'];
-        $descripcionEmpresa = $datos['descripcionEmpresa'];
         $nombreEmpresa = $datos['nombreEmpresa'];
+        $descripcionEmpresa = $datos['descripcionEmpresa'];
         $direccionEmpresa = $datos['direccionEmpresa'];
         $telefonofijoEmpresa = $datos['telefonofijoEmpresa'];
         $telefonocelularEmpresa = $datos['telefonocelularEmpresa'];
@@ -58,8 +58,8 @@ function show(){
 
         $return_arr[] = array(
             "idEmpresa" => $idEmpresa,
-            "descripcionEmpresa" => $descripcionEmpresa,
             "nombreEmpresa" => $nombreEmpresa,
+            "descripcionEmpresa" => $descripcionEmpresa,
             "direccionEmpresa" => $direccionEmpresa,
             "telefonofijoEmpresa" => $telefonofijoEmpresa,
             "telefonocelularEmpresa" => $telefonocelularEmpresa,

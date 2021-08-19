@@ -48,7 +48,7 @@ include('../function/setup.php');
     <script src='https://cdn.tiny.cloud/1/3kfa30gxd9mzy6z1zb8dtgdp6a7wx0rpa0mm5gbxmru677vg/tinymce/5/tinymce.min.js' referrerpolicy="origin"></script>
     <script>
         tinymce.init({
-            selector: '#descripcionEmpresa',
+        selector: '#descripcionEmpresa',
         height: 200,
         menubar: false,
         plugins: [
@@ -60,7 +60,14 @@ include('../function/setup.php');
         'bold italic backcolor | alignleft aligncenter ' +
         'alignright alignjustify | bullist numlist outdent indent | ' +
         'removeformat | help',
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        setup: function (editor) {
+          editor.on("change", function (e) {
+            $(".invalido").hide();
+            $(".invalido").html("");
+          });
+        },
+        
         });
       </script>
   </head>
@@ -276,7 +283,7 @@ include('../function/setup.php');
                   <label for="descripcion">Descripcion</label>
                   <div id="frm_descripcionEmpresa">
                     <textarea name="descripcionEmpresa" id="descripcionEmpresa" cols="30" rows="10"></textarea>
-                    <div class="invalid-feedback"></div>
+                    <span class="invalido"></span>
                   </div>
                 </div>
                 <div class="mb-3">

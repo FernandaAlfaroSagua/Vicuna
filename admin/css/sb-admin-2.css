@@ -2282,7 +2282,8 @@ textarea.form-control.is-valid {
   box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25);
 }
 
-.invalid-feedback {
+.invalid-feedback,
+.invalido {
   display: none;
   width: 100%;
   margin-top: 0.25rem;
@@ -11323,7 +11324,8 @@ a:focus {
 }
 
 .bg-login-image img,
-.bg-register-image img, .bg-password-image img {
+.bg-register-image img,
+.bg-password-image img {
   width: 200px;
 }
 

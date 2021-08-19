@@ -77,8 +77,8 @@ const tabla = $("#dataTableEmpresa").DataTable({
   },
   columns: [
     { data: "idEmpresa" },
-    { data: "descripcionEmpresa" },
     { data: "nombreEmpresa" },
+    { data: "descripcionEmpresa" },
     { data: "direccionEmpresa" },
     { data: "telefonofijoEmpresa" },
     { data: "telefonocelularEmpresa" },
@@ -146,7 +146,7 @@ $("#dataTableEmpresa").on("click", "button", function () {
 // carga los datos de la datatable en el formulario
 function cargarDatosEdit(data) {
   $("#nombreEmpresa").val(data.nombreEmpresa);
-  $("#descripcionEmpresa").val(data.descripcionEmpresa);
+  tinyMCE.get("descripcionEmpresa").setContent(data.descripcionEmpresa);
   $("#direccionEmpresa").val(data.direccionEmpresa);
   $("#telefonoEmpresa").val(data.telefonofijoEmpresa);
   $("#celularEmpresa").val(data.telefonocelularEmpresa);
@@ -160,6 +160,8 @@ function cargarDatosEdit(data) {
   $("#estado").val(data.estadoEmpresa);
   $("#ingresar").hide();
   $("#update").show();
+  $(".invalido").hide();
+  $(".invalido").html("");
   idEdit = data.idEmpresa;
 }
 
@@ -170,15 +172,6 @@ $("#nombreEmpresa").change(() => {
     $("#frm_nombreEmpresa > input").removeClass("is-invalid");
   } else {
     $("#frm_nombreEmpresa > input").addClass("is-invalid");
-  }
-});
-
-$("#descripcionEmpresa").change(() => {
-  let direccionEmpresa = $("#descripcionEmpresa").val();
-  if (direccionEmpresa) {
-    $("#frm_descripcionEmpresa > input").removeClass("is-invalid");
-  } else {
-    $("#frm_descripcionEmpresa > input").addClass("is-invalid");
   }
 });
 
@@ -285,7 +278,7 @@ $("#estado").change(() => {
 // limpia los campos del formulario
 function limpiar() {
   $("#nombreEmpresa").val("");
-  $("#descripcionEmpresa").val("");
+  tinyMCE.get("descripcionEmpresa").setContent("");
   $("#direccionEmpresa").val("");
   $("#telefonoEmpresa").val("");
   $("#celularEmpresa").val("");
@@ -300,6 +293,8 @@ function limpiar() {
   $("#ingresar").show();
   $("#update").hide();
   idEdit = 0;
+  $(".invalido").hide();
+  $(".invalido").html("");
 }
 
 // validar campos vacios
@@ -314,12 +309,10 @@ function validar() {
     return false;
   }
 
-  if ($("#descripcionEmpresa").val() == "") {
-    $("#frm_descripcionEmpresa > input").addClass("is-invalid");
-    $("#frm_descripcionEmpresa > div").html(
-      "Descripcion es un campo requerido"
-    );
-    $("#descripcionEmpresa").focus();
+  if (tinyMCE.get("descripcionEmpresa").getContent() == "") {
+    $(".invalido").show();
+    $(".invalido").html("Descripcion es un campo requerido");
+    tinyMCE.get("descripcionEmpresa").focus();
 
     return false;
   }
@@ -449,7 +442,7 @@ function create() {
     url: "../function/ctrl_empresa.php",
     data: {
       nombre: $("#nombreEmpresa").val(),
-      descripcion: $("#descripcionEmpresa").val(),
+      descripcion: tinyMCE.get("descripcionEmpresa").getContent(),
       direccion: $("#direccionEmpresa").val(),
       telefono: $("#telefonoEmpresa").val(),
       celular: $("#celularEmpresa").val(),
@@ -486,7 +479,7 @@ function update() {
     data: {
       id: idEdit,
       nombre: $("#nombreEmpresa").val(),
-      descripcion: $("#descripcionEmpresa").val(),
+      descripcion: tinyMCE.get("descripcionEmpresa").getContent(),
       direccion: $("#direccionEmpresa").val(),
       telefono: $("#telefonoEmpresa").val(),
       celular: $("#celularEmpresa").val(),
