@@ -139,7 +139,6 @@
         <?php
           }
         ?>
-
     </div>
       <!-- Footer -->
 <footer class="page-footer font-small blue pt-5">
