@@ -179,7 +179,7 @@
       
         <h2 class="heading-primary heading-first-main py-3">Ubicaciones Populares</h2>
         
-        <div class="owl-carousel owl-theme">
+        <div class="owl-carousel owl-theme container">
         <?php
           for ($i=1; $i < 11; $i++) { 
         ?>
@@ -203,7 +203,7 @@
           <img src="./img/barra.png" >
         </div>
         <h2 class="heading-secondary-main py-3">Punto de Interes</h2>
-        <div class="owl-carousel owl-theme mb-4">
+        <div class="owl-carousel owl-theme mb-4 container">
         <?php
         $sql="SELECT
         `puntointeres`.*,
@@ -220,24 +220,23 @@
         while ($datos = mysqli_fetch_array($result)) { 
         ?>
               <div class="card">
-                <img src="./galeria/<?php echo $datos['nombrefotoGaleria'] ?>" class="card-img-top" height="250px" alt="">
+                <img src="./galeria/<?php echo $datos['nombrefotoGaleria'] ?>" class="card-img-top"  alt="">
                 <div class="card-body">
                   <h5 clas="card-title"><?php echo $datos['descripcionPuntointeres'] ?></h5>
-                  <p><?php echo $datos['popularPuntointeres'] ?> estrellas</p>
                   <a href="details.php" class="btn btn-danger">Ver Detalles</a>
                 </div>
             </div>
 
             <?php } ?>
         </div>
-        <a href="search.php" class="btn-green mb-4">Ver Todas</a>
+        <a href="search.php" class="btn-green">Ver Todas</a>
         <div class="barra-primera">
           <img src="./img/barra.png" >
         </div>
       </div>
       <div class="colaboracion pt-4 ">
         <h2 class="heading-secondary-main my-4">Colaboran</h2>
-        <div class="owl-slider mx-5">
+        <div class="owl-slider container">
           <div id="carousel" class="owl-carousel">
             <div class="item">
               <img src="./img/logo_01.jpg" alt="">
@@ -262,20 +261,22 @@
       </div>
       <div class="services-section" id="services">
         <h2 class="heading-primary heading-first-main py-3">Servicios</h2>
-        <div class="owl-carousel owl-theme" id="servicio" >
-        <?php
-        $sql="SELECT * FROM servicio WHERE estadoServicio=1";
-        $result = mysqli_query(conectar(), $sql);
-        while ($datos = mysqli_fetch_array($result)) { 
-        ?>
-            <div class="card">
-                <div class="card-body">
-                  <h3 clas="card-title"><?php echo $datos['descripcionServicio'] ?></h3>
-                  <a href="servicios.php?id=<?php echo $datos['idServicio']; ?>" class="btn btn-danger">Ver Más</a>
-                </div>
-            </div>
+        <div class="container" id="servicio">
+          <div class="owl-carousel owl-theme" >
+          <?php
+          $sql="SELECT * FROM servicio WHERE estadoServicio=1";
+          $result = mysqli_query(conectar(), $sql);
+          while ($datos = mysqli_fetch_array($result)) { 
+          ?>
+              <div class="card">
+                  <div class="card-body">
+                    <h3 clas="card-title"><?php echo $datos['descripcionServicio'] ?></h3>
+                    <a href="servicios.php?id=<?php echo $datos['idServicio']; ?>" class="btn btn-danger">Ver Más</a>
+                  </div>
+              </div>
 
-        <?php } ?>
+          <?php } ?>
+          </div>
         </div>
         <div class="barra-primera bg-white">
           <img src="./img/barra2.png" >
