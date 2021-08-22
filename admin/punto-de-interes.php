@@ -1,6 +1,4 @@
-<?php
-include('../function/setup.php');
-?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,6 +40,31 @@ include('../function/setup.php');
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src='https://cdn.tiny.cloud/1/3kfa30gxd9mzy6z1zb8dtgdp6a7wx0rpa0mm5gbxmru677vg/tinymce/5/tinymce.min.js' referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+        selector: '#descripcionInteres',
+        height: 200,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        setup: function (editor) {
+          editor.on("change", function (e) {
+            $(".invalido").hide();
+            $(".invalido").html("");
+          });
+        },
+        
+        });
+      </script>
   </head>
 
   <body id="page-top">
@@ -246,9 +269,9 @@ include('../function/setup.php');
             <form>
             <div class="mb-3">
                   <label for="descripcion">Descripcion</label>
-                  <div id="frm_descripcion">
-                    <input class="form-control" id="descripcion" name="descripcion" type="text">
-                    <div class="invalid-feedback"></div>
+                  <div id="frm_descripcionInteres">
+                    <textarea name="descripcionInteres" id="descripcionInteres" cols="30" rows="10"></textarea>
+                    <span class="invalido"></span>
                   </div>
                 </div>
                 <div class="mb-3">

@@ -1,6 +1,4 @@
-<?php
-include('../function/setup.php');
-?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
