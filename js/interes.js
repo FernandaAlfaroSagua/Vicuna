@@ -98,24 +98,16 @@ $("#dataTableInteres").on("click", "button", function () {
 
 // carga los datos de la datatable en el formulario
 function cargarDatosEdit(data) {
-  $("#descripcion").val(data.descripcionPuntointeres);
+  tinyMCE.get("descripcionInteres").setContent(data.descripcionPuntointeres);
   $("#popular").val(data.popularPuntointeres);
   $("#galeria").val(data.galeria_idGaleria);
   $("#estado").val(data.estadoPuntointeres);
   $("#ingresar").hide();
   $("#update").show();
+  $(".invalido").hide();
+  $(".invalido").html("");
   idEdit = data.idPuntointeres;
 }
-
-// cambios en el nombre
-$("#descripcion").change(() => {
-  let descripcion = $("#descripcion").val();
-  if (descripcion) {
-    $("#frm_descripcion > input").removeClass("is-invalid");
-  } else {
-    $("#frm_descripcion > input").addClass("is-invalid");
-  }
-});
 
 $("#galeria").change(() => {
   let galeria = $("#galeria").val();
@@ -138,21 +130,23 @@ $("#estado").change(() => {
 
 // limpia los campos del formulario
 function limpiar() {
-  $("#descripcion").val("");
+  tinyMCE.get("descripcionInteres").setContent("");
   $("#popular").val("");
   $("#galeria").val("");
   $("#estado").val("");
   $("#ingresar").show();
   $("#update").hide();
   idEdit = 0;
+  $(".invalido").hide();
+  $(".invalido").html("");
 }
 
 // validar campos vacios
 function validar() {
-  if ($("#descripcion").val() == "") {
-    $("#frm_descripcion > input").addClass("is-invalid");
-    $("#frm_descripcion > div").html("Descripcion es un campo requerido");
-    $("#descripcion").focus();
+  if (tinyMCE.get("descripcionInteres").getContent() == "") {
+    $(".invalido").show();
+    $(".invalido").html("Descripcion es un campo requerido");
+    tinyMCE.get("descripcionInteres").focus();
 
     return false;
   }
@@ -201,11 +195,12 @@ function enviar(accion) {
 
 //ajax create
 function create() {
+  alert(tinyMCE.get("descripcionInteres").getContent());
   $.ajax({
     type: "POST",
     url: "../function/ctrl_interes.php",
     data: {
-      descripcion: $("#descripcion").val(),
+      descripcion: tinyMCE.get("descripcionInteres").getContent(),
       popular: $("#popular").val(),
       galeria: $("#galeria").val(),
       estado: $("#estado").val(),
@@ -233,7 +228,7 @@ function update() {
     url: "../function/ctrl_interes.php",
     data: {
       id: idEdit,
-      descripcion: $("#descripcion").val(),
+      descripcion: tinyMCE.get("descripcionInteres").getContent(),
       popular: $("#popular").val(),
       galeria: $("#galeria").val(),
       estado: $("#estado").val(),

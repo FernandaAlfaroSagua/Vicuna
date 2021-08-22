@@ -85,22 +85,14 @@ $("#dataTableServicio").on("click", "button", function () {
 
 // carga los datos de la datatable en el formulario
 function cargarDatosEdit(data) {
-  $("#descripcion").val(data.descripcionServicio);
+  tinyMCE.get("descripcionServicio").setContent(data.descripcionServicio);
   $("#estado").val(data.estadoServicio);
   $("#ingresar").hide();
   $("#update").show();
+  $(".invalido").hide();
+  $(".invalido").html("");
   idEdit = data.idServicio;
 }
-
-// cambios en el nombre
-$("#descripcion").change(() => {
-  let descripcion = $("#descripcion").val();
-  if (descripcion) {
-    $("#frm_descripcion > input").removeClass("is-invalid");
-  } else {
-    $("#frm_descripcion > input").addClass("is-invalid");
-  }
-});
 
 //cambios en el estado  --> elimino o agrego el css de invalid
 $("#estado").change(() => {
@@ -114,19 +106,21 @@ $("#estado").change(() => {
 
 // limpia los campos del formulario
 function limpiar() {
-  $("#descripcion").val("");
+  tinyMCE.get("descripcionServicio").setContent("");
   $("#estado").val("");
   $("#ingresar").show();
   $("#update").hide();
   idEdit = 0;
+  $(".invalido").hide();
+  $(".invalido").html("");
 }
 
 // validar campos vacios
 function validar() {
-  if ($("#descripcion").val() == "") {
-    $("#frm_descripcion > input").addClass("is-invalid");
-    $("#frm_descripcion > div").html("Descripcion es un campo requerido");
-    $("#descripcion").focus();
+  if (tinyMCE.get("descripcionServicio").getContent() == "") {
+    $(".invalido").show();
+    $(".invalido").html("Descripcion es un campo requerido");
+    tinyMCE.get("descripcionServicio").focus();
 
     return false;
   }
@@ -172,7 +166,7 @@ function create() {
     type: "POST",
     url: "../function/ctrl_servicio.php",
     data: {
-      descripcion: $("#descripcion").val(),
+      descripcion: tinyMCE.get("descripcionServicio").getContent(),
       estado: $("#estado").val(),
       accion_oculta: "Ingresar",
     },
@@ -198,7 +192,7 @@ function update() {
     url: "../function/ctrl_servicio.php",
     data: {
       id: idEdit,
-      descripcion: $("#descripcion").val(),
+      descripcion: tinyMCE.get("descripcionServicio").getContent(),
       estado: $("#estado").val(),
       accion_oculta: "Actualizar",
     },

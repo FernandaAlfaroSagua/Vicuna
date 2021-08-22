@@ -87,26 +87,18 @@ $("#dataTableUbicacion").on("click", "button", function () {
 
 // carga los datos de la datatable en el formulario
 function cargarDatosEdit(data) {
-  $("#descripcion").val(data.descripcionUbicacionQR);
+  tinyMCE.get("descripcionUbicacion").setContent(data.descripcionUbicacionQR);
   $("#latitud").val(data.latitududUbicacionQR);
   $("#longitud").val(data.longitudUbicacionQR);
   $("#estado").val(data.estadoUbicacionQR);
   $("#ingresar").hide();
   $("#update").show();
+  $(".invalido").hide();
+  $(".invalido").html("");
   idEdit = data.idUbicacionesQR;
 }
 
-// cambios en el nombre
-$("#descripcion").change(() => {
-  let descripcion = $("#descripcion").val();
-  if (descripcion) {
-    $("#frm_descripcion > input").removeClass("is-invalid");
-  } else {
-    $("#frm_descripcion > input").addClass("is-invalid");
-  }
-});
-
-// cambios en  llaatitud
+// cambios en  la laatitud
 $("#latitud").change(() => {
   let latitud = $("#latitud").val();
   if (latitud) {
@@ -138,21 +130,23 @@ $("#estado").change(() => {
 
 // limpia los campos del formulario
 function limpiar() {
-  $("#descripcion").val("");
+  tinyMCE.get("descripcionUbicacion").setContent("");
   $("#latitud").val("");
   $("#longitud").val("");
   $("#estado").val("");
   $("#ingresar").show();
   $("#update").hide();
   idEdit = 0;
+  $(".invalido").hide();
+  $(".invalido").html("");
 }
 
 // validar campos vacios
 function validar() {
-  if ($("#descripcion").val() == "") {
-    $("#frm_descripcion > input").addClass("is-invalid");
-    $("#frm_descripcion > div").html("Decripción es un campo requerido");
-    $("#descripcion").focus();
+  if (tinyMCE.get("descripcionUbicacion").getContent() == "") {
+    $(".invalido").show();
+    $(".invalido").html("Descripcion es un campo requerido");
+    tinyMCE.get("descripcionUbicacion").focus();
 
     return false;
   }
@@ -210,11 +204,12 @@ function enviar(accion) {
 
 //ajax create
 function create() {
+  alert(tinyMCE.get("descripcionUbicacion").getContent());
   $.ajax({
     type: "POST",
     url: "../function/ctrl_ubicacion.php",
     data: {
-      descripcion: $("#descripcion").val(),
+      descripcion: tinyMCE.get("descripcionUbicacion").getContent(),
       latitud: $("#latitud").val(),
       longitud: $("#longitud").val(),
       estado: $("#estado").val(),
@@ -242,7 +237,7 @@ function update() {
     url: "../function/ctrl_ubicacion.php",
     data: {
       id: idEdit,
-      descripcion: $("#descripcion").val(),
+      descripcion: tinyMCE.get("descripcionUbicacion").getContent(),
       latitud: $("#latitud").val(),
       longitud: $("#longitud").val(),
       estado: $("#estado").val(),
