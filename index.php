@@ -191,7 +191,7 @@
         $result = mysqli_query(conectar(), $sql);
         while ($datos = mysqli_fetch_array($result)) { 
         ?>
-              <div class="card">
+              <div class="card card-interes">
                 <img src="./galeria/<?php echo $datos['nombrefotoGaleria'] ?>" class="card-img-top"  alt="">
                 <div class="card-body">
                   <h5 clas="card-title"><?php echo $datos['descripcionPuntointeres'] ?></h5>
@@ -240,7 +240,7 @@
           $result = mysqli_query(conectar(), $sql);
           while ($datos = mysqli_fetch_array($result)) { 
           ?>
-              <div class="card">
+              <div class="card card-servicio">
                   <div class="card-body">
                     <h3 clas="card-title"><?php echo $datos['descripcionServicio'] ?></h3>
                     <a href="servicios.php?id=<?php echo $datos['idServicio']; ?>" class="btn btn-danger">Ver Más</a>
