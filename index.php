@@ -32,7 +32,7 @@
   <body>
     <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
-      <a class="navbar-brand" href="#"><img src="img/Logotipo.png"
+      <a class="navbar-brand" href="./index.php"><img src="img/Logotipo.png"
             width="150"
             class="d-inline-block align-top"
             alt="">
@@ -68,7 +68,7 @@
             </a>
           </li>
         </ul>
-        <ul class="list-inline ml-auto" id="social">
+        <ul class="list-inline mr-4" id="social">
           <li class="list-inline-item">
             <a href="https://www.youtube.com/channel/UCp3pridu6YCWod4oazXTucw" target="_blank" >
             <img src="./img/ico_youtube_gris.png" alt="">

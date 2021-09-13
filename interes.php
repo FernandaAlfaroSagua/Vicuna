@@ -31,7 +31,7 @@
   <body>
     <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
-      <a class="navbar-brand" href="#"><img src="img/Logotipo.png"
+      <a class="navbar-brand" href="./index.php"><img src="img/Logotipo.png"
             width="150"
             class="d-inline-block align-top"
             alt="">
