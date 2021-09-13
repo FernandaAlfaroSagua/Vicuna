@@ -159,6 +159,7 @@ function limpiar() {
   $("#nombreUsuario").val("");
   $("#usuario").val("");
   $("#clave").val("");
+  $("#clave").attr("readonly", false);
   $("#estado").val("");
   $("#ingresar").show();
   $("#update").hide();

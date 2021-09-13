@@ -50,7 +50,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Inicio
+            <a class="nav-link waves-effect waves-light" href="index.php">Inicio
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -101,41 +101,76 @@
     </nav>
     </header>
     <main role="main">
-    <div class="container detalles my-4">
-      <div class="row mb-2">
-        <h2 class="heading-color">Título</h2>
-        </div>
+      <div class="container detalles my-4">
+      <?php
+          include('./function/setup.php');
+          $serv="SELECT * FROM puntointeres WHERE idPuntointeres=".$_GET['id'];
+          $res = mysqli_query(conectar(), $serv);
+          $fila = mysqli_fetch_assoc($res);
+        ?>
         <div class="row mb-2">
-        <h3 class="subtitle heading-color">Descripción</h3>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium facere ipsum ratione quis. Odit facere recusandae sapiente ad error reprehenderit, aut voluptas quis sequi atque, laboriosam iste inventore, qui possimus?</p>
+          <div class="col-12 col-sm-6">
+            <h3 class="subtitle heading-color">Descripción</h3>
+            <p><?php echo $fila['descripcionPuntointeres'] ?></p>
+          </div>
+          <div class="col-12 col-sm-6">
+            <h3 class="subtitle heading-color">Popularidad</h3>
+            <?php 
+                $num = (int)$fila['popularPuntointeres'];
+                for ($i=0; $i <5 ; $i++ ) { 
+                  if ($i<$num) {
+            ?>
+                  <i class="fa fa-star" style="color: yellow"></i>
+            <?php
+                  } else {
+            ?>
+                <i class="fa fa-star"></i>
+
+            <?php
+                  }
+                }
+            ?>
+          </div>
         </div>
     
-      <div class="row mb-2">
-        <h3 class="subtitle heading-color">Ubicacion</h3>
-        <img class="w-100 my-2" src="./img/mapa.jpg" alt="">
-      </div>
-      <div class="row mb-2">
+        <div class="row mb-2">
           <h3 class="subtitle heading-color">Galería</h3>
           <div class="post-container owl-carousel">
           <?php
-          for ($i=1; $i < 11; $i++) { 
-
-          echo '
-          <div class="card">
-              <div class="card-image">
-              <img class="w-100" src="./img/hero.jpg" alt="" />
-              </div>
-          </div>
-          ';
+          $sql="SELECT * FROM fotosgaleria WHERE estadofotoGaleria=1 AND galeria_idGaleria=".$fila['galeria_idGaleria'];
+          $result = mysqli_query(conectar(), $sql);
+          while ($datos = mysqli_fetch_array($result)) { 
+          ?>
+            <div class="card">
+                <div class="card-image">
+                  <img class="w-100" src="./galeria/<?php echo $datos['nombrefotoGaleria'] ?>" alt="" />
+                </div>
+            </div>
+          <?php
           }
           ?>
-        </div>
+          </div>
         </div>
         <div class="row mb-2">
-            <h3 class="subtitle heading-color">Video</h3>
-            <video width="100%" height="320" controls>
-                <!-- <source src="" type="video/mp4"> -->
-            </video>
+          <h3 class="subtitle heading-color">Video</h3>
+          <?php 
+            $sql = "SELECT
+            `multimediavideo`.`linkyoutubeMultimedia`,
+            `multimediavideo`.`estadoMultimedia`,
+            `puntointeres_has_multimediavideo`.`puntointeres_idPuntointeres`
+          FROM
+            `puntointeres_has_multimediavideo`
+            INNER JOIN `multimediavideo` ON `multimediavideo`.`idMultimediavideo` =
+          `puntointeres_has_multimediavideo`.`multimediavideo_idMultimediavideo` where puntointeres_idPuntointeres=".$_GET['id'];
+
+            $result = mysqli_query(conectar(), $sql);
+            while ($datos = mysqli_fetch_array($result)) { 
+          
+          ?>
+            <iframe width="100%" height="320" src="<?php echo $datos['linkyoutubeMultimedia'];?>"></iframe>
+            <?php
+          }
+          ?>
         </div>
     </div>
       <!-- Footer -->
@@ -158,7 +193,7 @@
       <div class="col-md-7 mb-md-0 my-auto">
 
         <!-- Links -->
-        <ul class="list-unstyled">
+        <ul class="list-unstyled text-center">
           <li>
             &copy; 2020 Vicuña Valle del Elqui. Corporación Municipal de Turismo de Vicuña
           </li>
@@ -174,7 +209,7 @@
       <!-- Grid column -->
 
       <!-- Grid column -->
-      <div class="col-md-3  my-auto">
+      <div class="col-md-3 text-center my-auto">
         <a href="https://www.youtube.com/channel/UCp3pridu6YCWod4oazXTucw" target="_blank" class="mr-2" >
            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="10mm" height="10mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
               viewBox="0 0 164 164"

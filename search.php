@@ -144,7 +144,7 @@
       <div class="col-md-7 mb-md-0 my-auto">
 
         <!-- Links -->
-        <ul class="list-unstyled">
+        <ul class="list-unstyled text-center">
           <li>
             &copy; 2020 Vicuña Valle del Elqui. Corporación Municipal de Turismo de Vicuña
           </li>
@@ -160,7 +160,7 @@
       <!-- Grid column -->
 
       <!-- Grid column -->
-      <div class="col-md-3  my-auto">
+      <div class="col-md-3 text-center my-auto">
         <a href="https://www.youtube.com/channel/UCp3pridu6YCWod4oazXTucw" target="_blank" class="mr-2" >
            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="10mm" height="10mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
               viewBox="0 0 164 164"

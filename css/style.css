@@ -80,28 +80,14 @@ body {
   margin-bottom: 2rem;
 }
 
-#carouselHero .carousel-item img {
+#carouselExampleIndicators .carousel-item img {
   object-fit: cover;
   object-position: center;
   overflow: hidden;
   height: 90vh;
 }
 
-.card-interes {
-  height: 50vh;
-}
-
-.card-servicio {
-  height: 20vh;
-}
-
-.card-img-top {
-  width: 100%;
-  height: 25vh;
-  object-fit: cover;
-}
-
-#carouselHero .carousel-item:before {
+#carouselExampleIndicators .carousel-item:before {
   content: "";
   display: block;
   position: absolute;
@@ -152,6 +138,7 @@ body {
 .barra-segunda img {
   width: 100%;
   height: 20px;
+  object-fit: cover;
 }
 
 #social li a img {
@@ -198,7 +185,6 @@ body {
   );
   background-size: cover;
   background-position: top;
-  height: 42rem;
   position: relative;
   padding-top: 3rem;
   text-align: center;
@@ -227,7 +213,6 @@ footer {
   );
   background-size: cover;
   background-position: top;
-  height: 23rem;
   position: relative;
   padding-top: 2rem;
   text-align: center;
@@ -270,27 +255,7 @@ footer {
   }
 }
 
-@media (max-width: 1000px) {
-  .locations-section,
-  .interest-section {
-    height: 52rem;
-  }
-
-  .interest-section {
-    height: 54rem;
-  }
-
-  .colaboracion {
-    height: 37rem;
-  }
-}
-
 @media (max-width: 605px) {
-  .locations-section,
-  .interest-section {
-    height: 52rem;
-  }
-
   .heading-first-main,
   .heading-secondary-main {
     display: block;
@@ -322,23 +287,18 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .locations-section,
-  .interest-section {
-    height: 48rem;
-  }
-
   .heading-first-main,
   .heading-secondary-main {
     display: block;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     text-align: center;
     margin: auto;
-    letter-spacing: 0;
+    letter-spacing: 0.5;
   }
 
   .locations-section .heading-first-main {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 
   .heading-primary {
@@ -346,13 +306,13 @@ footer {
   }
   .heading-primary-main {
     font-size: 1.8rem;
-    letter-spacing: 0;
+    letter-spacing: 0.5;
     margin-bottom: 10px;
   }
 
   .heading-primary-sub {
     font-size: 1.2rem;
-    letter-spacing: 0;
+    letter-spacing: 0.3;
   }
 
   .detalles {
