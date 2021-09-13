@@ -255,13 +255,12 @@
           $result = mysqli_query(conectar(), $sql);
           while ($datos = mysqli_fetch_array($result)) { 
           ?>
-              <div class="card card-servicio">
+              <div class="card">
                   <div class="card-body">
                     <h3 clas="card-title"><?php echo $datos['descripcionServicio'] ?></h3>
                     <a href="servicios.php?id=<?php echo $datos['idServicio']; ?>" class="btn btn-danger">Ver Más</a>
                   </div>
               </div>
-
           <?php } ?>
           </div>
         </div>
