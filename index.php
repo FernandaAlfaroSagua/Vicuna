@@ -91,9 +91,9 @@
             </a>
           </li>
         </ul>
-        <form class="form-inline d-flex flex-nowrap align-items-center ml-lg-2 ml-sm-0 mb-4" action="./search.php">
-            <input class="form-control form-control-sm mt-1" type="text" placeholder="Ej Iglesía">
-            <button class="btn btn-danger btn-sm mx-1 " type="submit">Buscar</button>
+        <form class="form-inline d-flex flex-nowrap align-items-center ml-lg-2 ml-sm-0 mb-4 "  action="./function/ctrl_search.php" method="post">
+            <input class="form-control form-control-sm mt-1" required name="search" type="text" placeholder="Ej Iglesía">
+            <button class="btn btn-danger btn-sm mx-1" type="submit">Buscar</button>
         </form>
       </div>
       <div class="barra-primera">

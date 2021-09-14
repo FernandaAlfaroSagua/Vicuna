@@ -11,7 +11,7 @@
     <link
       href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
       rel="stylesheet"
-    />
+    /> 
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -50,7 +50,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link waves-effect waves-light" href="#">Inicio
+            <a class="nav-link waves-effect waves-light" href="index.php">Inicio
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -90,8 +90,8 @@
             </a>
           </li>
         </ul>
-        <form class="form-inline d-flex flex-nowrap align-items-center ml-lg-2 ml-sm-0 mb-4" action="./search.php">
-            <input class="form-control form-control-sm mt-1" type="text" placeholder="Ej Iglesía">
+        <form class="form-inline d-flex flex-nowrap align-items-center ml-lg-2 ml-sm-0 mb-4 "  action="./function/ctrl_search.php" method="post">
+            <input class="form-control form-control-sm mt-1" required name="search" type="text" placeholder="Ej Iglesía">
             <button class="btn btn-danger btn-sm mx-1" type="submit">Buscar</button>
         </form>
       </div>
@@ -103,26 +103,78 @@
     <main role="main">
     <div class="container">
         <?php
-          for ($i=1; $i < 11; $i++) { 
+          include('function/setup.php');
+          $emp="SELECT * FROM empresa  WHERE estadoEmpresa=1 AND nombreEmpresa LIKE '%".$_GET['q']."%' OR descripcionEmpresa LIKE '%".$_GET['q']."%'";
+          $res = mysqli_query(conectar(), $emp);
+          $num = mysqli_num_rows($res);
+        ?>
+        <h2 class="mt-2">Busqueda: <?php echo $_GET['q']; ?></h2>
+        <?php if ($num!=0) {
+          $sql="SELECT
+          `galeriaempresa`.`imagen`,
+          `galeriaempresa`.`estado`,
+          `galeriaempresa`.`principal`,
+          `empresa`.*
+        FROM
+          `empresa`
+          INNER JOIN `galeriaempresa` ON `empresa`.`idEmpresa` =
+        `galeriaempresa`.`empresa_idEmpresa` WHERE estadoEmpresa=1 AND principal=1 AND nombreEmpresa LIKE '%".$_GET['q']."%' OR descripcionEmpresa LIKE '%".$_GET['q']."%' GROUP BY idEmpresa";
+          $result = mysqli_query(conectar(), $sql);
+          while ($datos = mysqli_fetch_array($result)) { 
         ?>
          <div class="card my-4" style="width=100%">
               <div class="row no-gutters">
                   <div class="col-sm-5" style="background: #868e96;">
-                      <img src="./img/hero.jpg" class="card-img-top h-100" alt="...">
+                      <img src="./galeriaempresa/<?php echo $datos['imagen'] ?>" class="card-img-top h-100" alt="...">
                   </div>
                   <div class="col-sm-7">
                       <div class="card-body">
-                          <h5 class="card-title">Title</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non distinctio voluptatem ullam incidunt sint. Ab nostrum fuga perspiciatis at quas saepe repellat, voluptates, assumenda soluta magni, nihil fugiat. Id, laborum?</p>
-                          <a href="#" class="btn btn-danger stretched-link">Ver Detalles</a>
+                          <h5 class="card-title"><?php echo $datos['nombreEmpresa'] ?></h5>
+                          <p class="card-text"><?php echo $datos['descripcionEmpresa'] ?></p>
+                          <a href="empresa.php?id=<?php echo $datos['idEmpresa'] ?>" class="btn btn-danger stretched-link">Ver Detalles</a>
                       </div>
                   </div>
               </div>
           </div>
         <?php
           }
-        ?>
+        }
 
+        $int="SELECT * FROM puntointeres  WHERE estadoPuntointeres=1 AND descripcionPuntointeres LIKE '%".$_GET['q']."%'";
+          $res = mysqli_query(conectar(), $int);
+          $num = mysqli_num_rows($res);
+         if ($num!=0) {
+          $sql="SELECT
+          `puntointeres`.*,
+          `fotosgaleria`.`principalfotoGaleria`,
+          `fotosgaleria`.`estadofotoGaleria`,
+          `fotosgaleria`.`nombrefotoGaleria`
+          FROM
+          `puntointeres`
+          INNER JOIN `galeria`
+          ON `galeria`.`idGaleria` = `puntointeres`.`galeria_idGaleria`
+          INNER JOIN `fotosgaleria` ON `galeria`.`idGaleria` =
+          `fotosgaleria`.`galeria_idGaleria` WHERE principalfotoGaleria=1 AND descripcionPuntointeres LIKE '%".$_GET['q']."%'";
+          $result = mysqli_query(conectar(), $sql);
+          while ($datos = mysqli_fetch_array($result)) { 
+        ?>
+         <div class="card my-4" style="width=100%">
+              <div class="row no-gutters">
+                  <div class="col-sm-5" style="background: #868e96;">
+                      <img src="./galeria/<?php echo $datos['nombrefotoGaleria'] ?>" class="card-img-top h-100" alt="...">
+                  </div>
+                  <div class="col-sm-7">
+                      <div class="card-body">
+                      <h5 clas="card-title"><?php echo $datos['descripcionPuntointeres'] ?></h5>
+                      <a href="interes.php?id=<?php echo $datos['idPuntointeres'] ?>" class="btn btn-danger">Ver Detalles</a>
+                     </div>
+                  </div>
+              </div>
+          </div>
+        <?php
+          }
+        }
+        ?>
     </div>
       <!-- Footer -->
 <footer class="page-footer font-small blue pt-5">
