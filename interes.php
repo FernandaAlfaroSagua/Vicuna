@@ -154,6 +154,7 @@
         <div class="row mb-2">
           <h3 class="subtitle heading-color">Video</h3>
           <?php 
+            $video = "https://www.youtube.com/embed/";
             $sql = "SELECT
             `multimediavideo`.`linkyoutubeMultimedia`,
             `multimediavideo`.`estadoMultimedia`,
@@ -167,7 +168,7 @@
             while ($datos = mysqli_fetch_array($result)) { 
           
           ?>
-            <iframe width="100%" height="320" src="<?php echo $datos['linkyoutubeMultimedia'];?>"></iframe>
+            <iframe width="100%" height="320" src="<?php echo $video.$datos['linkyoutubeMultimedia'];?>"></iframe>
             <?php
           }
           ?>

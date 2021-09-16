@@ -243,7 +243,16 @@
             <form>
                 <div class="mb-3">
                   <label for="link">Link de Youtube</label>
-                  <div id="frm_link">
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    Para el link solo debes subir la parte que esta en verde: https://www.youtube.com/watch?v=<span class="badge badge-success">2Tuwb5AT8-g</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div id="frm_link" class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">https://www.youtube.com/watch?v=</div>
+                    </div>
                     <input class="form-control" id="link" name="link" type="text">
                     <div class="invalid-feedback"></div>
                   </div>
