@@ -1,10 +1,11 @@
 <?php
         include('setup.php');
+
         $emp="SELECT * FROM empresa  WHERE estadoEmpresa=1 AND nombreEmpresa LIKE '%".$_GET['q']."%' OR descripcionEmpresa LIKE '%".$_GET['q']."%'";
         $res = mysqli_query(conectar(), $emp);
         $numEmp = mysqli_num_rows($res);
     ?>
-    <h2 class="mt-2">Busqueda: <?php echo $_GET['q']; ?></h2>
+    <h2 class="mt-2">Búsqueda: <?php echo $_GET['q']; ?></h2>
     <?php if ($numEmp!=0) {
         $sql="SELECT
         `galeriaempresa`.`imagen`,

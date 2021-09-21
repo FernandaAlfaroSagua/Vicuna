@@ -18,14 +18,14 @@ switch ($_POST['accion_oculta']) {
 
 function insertar()
 {
-    $sql ="INSERT INTO empresa SET  descripcionEmpresa='" . $_POST['descripcion'] . "', nombreEmpresa='" . $_POST['nombre'] . "', direccionEmpresa='" . $_POST['direccion'] . "', telefonofijoEmpresa='" . $_POST['telefono'] . "', telefonocelularEmpresa='" . $_POST['celular'] . "', correoEmpresa='" . $_POST['correo'] . "', paginawebEmpresa='" . $_POST['pagina'] . "', rrssfacebookEmpresa='" . $_POST['facebook'] . "', rrsstwitterEmpresa='" . $_POST['twitter'] . "', rrssinstagramEmpresa='" . $_POST['instagram'] . "', servicio_idServicio='" . $_POST['servicio'] . "', rubro_idRubro='" . $_POST['rubro'] . "', estadoEmpresa='" . $_POST['estado'] . "'";
+    $sql ="INSERT INTO empresa SET  descripcionEmpresa='" . $_POST['descripcion'] . "', nombreEmpresa='" . $_POST['nombre'] . "', direccionEmpresa='" . $_POST['direccion'] . "', telefonofijoEmpresa='" . $_POST['telefono'] . "', telefonocelularEmpresa='" . $_POST['celular'] . "', correoEmpresa='" . $_POST['correo'] . "', paginawebEmpresa='" . $_POST['pagina'] . "', rrssfacebookEmpresa='" . $_POST['facebook'] . "', rrsstwitterEmpresa='" . $_POST['twitter'] . "', rrssinstagramEmpresa='" . $_POST['instagram'] . "', servicio_idServicio='" . $_POST['servicio'] . "', rubro_idRubro='" . $_POST['rubro'] . "', estadoEmpresa='" . $_POST['estado'] . "', latitudEmpresa='" . $_POST['latitud'] . "', longitudEmpresa='" . $_POST['longitud'] . "'";
     var_dump($sql);
     mysqli_query(conectar(), $sql);
    
 }
 
 function update(){
-    $sql ="UPDATE empresa SET   descripcionEmpresa='" . $_POST['descripcion'] . "', nombreEmpresa='" . $_POST['nombre'] . "', direccionEmpresa='" . $_POST['direccion'] . "', telefonofijoEmpresa='" . $_POST['telefono'] . "', telefonocelularEmpresa='" . $_POST['celular'] . "', correoEmpresa='" . $_POST['correo'] . "', paginawebEmpresa='" . $_POST['pagina'] . "', rrssfacebookEmpresa='" . $_POST['facebook'] . "', rrsstwitterEmpresa='" . $_POST['twitter'] . "', rrssinstagramEmpresa='" . $_POST['instagram'] . "', servicio_idServicio='" . $_POST['servicio'] . "', rubro_idRubro='" . $_POST['rubro'] . "',  estadoEmpresa='" . $_POST['estado'] . "' WHERE idEmpresa='".$_POST['id']."'";
+    $sql ="UPDATE empresa SET   descripcionEmpresa='" . $_POST['descripcion'] . "', nombreEmpresa='" . $_POST['nombre'] . "', direccionEmpresa='" . $_POST['direccion'] . "', telefonofijoEmpresa='" . $_POST['telefono'] . "', telefonocelularEmpresa='" . $_POST['celular'] . "', correoEmpresa='" . $_POST['correo'] . "', paginawebEmpresa='" . $_POST['pagina'] . "', rrssfacebookEmpresa='" . $_POST['facebook'] . "', rrsstwitterEmpresa='" . $_POST['twitter'] . "', rrssinstagramEmpresa='" . $_POST['instagram'] . "', servicio_idServicio='" . $_POST['servicio'] . "', rubro_idRubro='" . $_POST['rubro'] . "',  estadoEmpresa='" . $_POST['estado'] . "', latitudEmpresa='" . $_POST['latitud'] . "', longitudEmpresa='" . $_POST['longitud'] . "' WHERE idEmpresa='".$_POST['id']."'";
     mysqli_query(conectar(), $sql);
 }
 
@@ -51,6 +51,8 @@ function show(){
         $rrssfacebookEmpresa = $datos['rrssfacebookEmpresa'];
         $rrsstwitterEmpresa = $datos['rrsstwitterEmpresa'];
         $rrssinstagramEmpresa = $datos['rrssinstagramEmpresa'];
+        $latitudEmpresa = $datos['latitudEmpresa'];
+        $longitudEmpresa = $datos['longitudEmpresa'];
         $servicio = $datos['servicio_idServicio'];
         $rubro = $datos['rubro_idRubro'];
         $estado = $datos['estadoEmpresa'];
@@ -68,6 +70,8 @@ function show(){
             "rrssfacebookEmpresa" => $rrssfacebookEmpresa,
             "rrsstwitterEmpresa" => $rrsstwitterEmpresa,
             "rrssinstagramEmpresa" => $rrssinstagramEmpresa,
+            "latitudEmpresa" => $latitudEmpresa,
+            "longitudEmpresa" => $longitudEmpresa,
             "servicio_idServicio" => $servicio,
             "rubro_idRubro" => $rubro,
             "estadoEmpresa" => $estado

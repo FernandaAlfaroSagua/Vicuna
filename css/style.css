@@ -7,6 +7,11 @@ body {
   background-color: #f7f7f7;
 }
 
+
+#map {
+  width: 100%;
+  height: 300px;
+}
 .btn-main {
   background-image: linear-gradient(to right, #8f1226, #9f172e);
   border: none;

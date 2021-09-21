@@ -24,27 +24,7 @@ $(function () {
   });
 });
 
-function cargarServicio() {
-  $.ajax({
-    type: "POST",
-    url: "../function/cargar_servicio.php",
-    success: function (response) {
-      $("#servicio").html(response);
-    },
-  });
-}
-
-function cargarRubro() {
-  $.ajax({
-    type: "POST",
-    url: "../function/cargar_rubro.php",
-    success: function (response) {
-      $("#rubro").html(response);
-    },
-  });
-}
-
-/*Funcion para recuperar a los usuarios*/
+/*Funcion para recuperar las empresas*/
 getEmpresa = () => {
   $.ajax({
     type: "POST",
@@ -70,6 +50,26 @@ getEmpresa = () => {
   });
 };
 
+function cargarServicio() {
+  $.ajax({
+    type: "POST",
+    url: "../function/cargar_servicio.php",
+    success: function (response) {
+      $("#servicio").html(response);
+    },
+  });
+}
+
+function cargarRubro() {
+  $.ajax({
+    type: "POST",
+    url: "../function/cargar_rubro.php",
+    success: function (response) {
+      $("#rubro").html(response);
+    },
+  });
+}
+
 /*Constante para rellenar las filas de la tabla: usuarios --> se crea el datatable*/
 const tabla = $("#dataTableEmpresa").DataTable({
   language: {
@@ -87,6 +87,8 @@ const tabla = $("#dataTableEmpresa").DataTable({
     { data: "rrssfacebookEmpresa" },
     { data: "rrsstwitterEmpresa" },
     { data: "rrssinstagramEmpresa" },
+    { data: "latitudEmpresa" },
+    { data: "longitudEmpresa" },
     { data: "servicio_idServicio" },
     { data: "rubro_idRubro" },
     {
@@ -138,10 +140,84 @@ $("#dataTableEmpresa").on("click", "button", function () {
 
   if ($(this)[0].name == "btn_update") {
     cargarDatosEdit(data);
+    modificarMapa(data["latitudEmpresa"], data["longitudEmpresa"]);
   } else if ($(this)[0].name == "btn_delete") {
     eliminar(data.idEmpresa);
   }
 });
+
+function modificarMapa(lat, long) {
+  var input = document.getElementById("pac-input");
+  navigator.geolocation.getCurrentPosition(function (position) {
+    pos = {
+      lat: Number(lat),
+      lng: Number(long),
+    };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: {
+        lat: pos.lat,
+        lng: pos.lng,
+      },
+      zoom: 13,
+      mapTypeId: "roadmap",
+    });
+
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo("bounds", map);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    var marker = new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng(pos.lat, pos.lng),
+      draggable: true,
+      clickable: true,
+    });
+    google.maps.event.addListener(marker, "dragend", function (marker) {
+      var latLng = marker.latLng;
+      document.getElementById("latitud").value = latLng.lat();
+      document.getElementById("longitud").value = latLng.lng();
+      currentLatitude = latLng.lat();
+      currentLongitude = latLng.lng();
+      var latlng = {
+        lat: currentLatitude,
+        lng: currentLongitude,
+      };
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        {
+          location: latlng,
+        },
+        function (results, status) {
+          if (status === "OK") {
+            if (results[0]) {
+              input.value = results[0].formatted_address;
+            } else {
+              console.log("No results found");
+            }
+          } else {
+            console.log("Geocoder failed due to: " + status);
+          }
+        }
+      );
+    });
+
+    autocomplete.addListener("place_changed", function () {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        return;
+      }
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+      }
+      marker.setPosition(place.geometry.location);
+      currentLatitude = place.geometry.location.lat();
+      currentLongitude = place.geometry.location.lng();
+      document.getElementById("latitud").value = place.geometry.location.lat();
+      document.getElementById("longitud").value = place.geometry.location.lng();
+    });
+  });
+}
 
 // carga los datos de la datatable en el formulario
 function cargarDatosEdit(data) {
@@ -155,6 +231,8 @@ function cargarDatosEdit(data) {
   $("#facebookEmpresa").val(data.rrssfacebookEmpresa);
   $("#twitterEmpresa").val(data.rrsstwitterEmpresa);
   $("#instagramEmpresa").val(data.rrssinstagramEmpresa);
+  $("#latitud").val(data.latitudEmpresa);
+  $("#longitud").val(data.longitudEmpresa);
   $("#servicio").val(data.servicio_idServicio);
   $("#rubro").val(data.rubro_idRubro);
   $("#estado").val(data.estadoEmpresa);
@@ -247,6 +325,28 @@ $("#instagramEmpresa").change(() => {
   }
 });
 
+// cambios en  latitud
+$("#latitud").change(() => {
+  let latitud = $("#latitud").val();
+  modificarMapa(latitud, $("#longitud").val());
+  if (latitud) {
+    $("#frm_latitud > input").removeClass("is-invalid");
+  } else {
+    $("#frm_latitud > input").addClass("is-invalid");
+  }
+});
+
+// cambios en la longitud
+$("#longitud").change(() => {
+  let longitud = $("#longitud").val();
+  modificarMapa($("#latitud").val(), longitud);
+  if (longitud) {
+    $("#frm_longitud > input").removeClass("is-invalid");
+  } else {
+    $("#frm_longitud > input").addClass("is-invalid");
+  }
+});
+
 $("#rubro").change(() => {
   let rubro = $("#rubro").val();
   if (rubro) {
@@ -287,6 +387,8 @@ function limpiar() {
   $("#facebookEmpresa").val("");
   $("#twitterEmpresa").val("");
   $("#instagramEmpresa").val("");
+  $("#latitud").val("");
+  $("#longitud").val("");
   $("#servicio").val("");
   $("#rubro").val("");
   $("#estado").val("");
@@ -386,6 +488,22 @@ function validar() {
     return false;
   }
 
+  if ($("#latitud").val() == "") {
+    $("#frm_latitud > input").addClass("is-invalid");
+    $("#frm_latitud > div").html("Latitud es un campo requerido");
+    $("#latitud").focus();
+
+    return false;
+  }
+
+  if ($("#longitud").val() == "") {
+    $("#frm_longitud > input").addClass("is-invalid");
+    $("#frm_longitud > div").html("Longitud es un campo requerido");
+    $("#longitud").focus();
+
+    return false;
+  }
+
   if ($("#rubro").val() == "") {
     $("#frm_rubro > select").addClass("is-invalid");
     $("#frm_rubro > div").html("Rubro es un campo requerido");
@@ -451,6 +569,8 @@ function create() {
       facebook: $("#facebookEmpresa").val(),
       twitter: $("#twitterEmpresa").val(),
       instagram: $("#instagramEmpresa").val(),
+      latitud: $("#latitud").val(),
+      longitud: $("#longitud").val(),
       servicio: $("#servicio").val(),
       rubro: $("#rubro").val(),
       estado: $("#estado").val(),
@@ -488,6 +608,8 @@ function update() {
       facebook: $("#facebookEmpresa").val(),
       twitter: $("#twitterEmpresa").val(),
       instagram: $("#instagramEmpresa").val(),
+      latitud: $("#latitud").val(),
+      longitud: $("#longitud").val(),
       servicio: $("#servicio").val(),
       rubro: $("#rubro").val(),
       estado: $("#estado").val(),

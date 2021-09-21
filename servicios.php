@@ -26,8 +26,9 @@
     />
     <link rel="stylesheet" href="./owl/owl.carousel.min.css">
     <link rel="stylesheet" href="./owl/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="css/style.css" />  
+   </head>
   <body>
     <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -132,13 +133,16 @@
                           <h5 class="card-title"><?php echo $datos['nombreEmpresa'] ?></h5>
                           <p class="card-text"><?php echo $datos['descripcionEmpresa'] ?></p>
                           <a href="empresa.php?id=<?php echo $datos['idEmpresa'] ?>" class="btn btn-danger stretched-link">Ver Detalles</a>
-                      </div>
+                       
+                        </div>
                   </div>
+                  
               </div>
           </div>
         <?php
           }
         ?>
+        <div id="map"></div>
     </div>
       <!-- Footer -->
 <footer class="page-footer font-small blue pt-5">
@@ -282,13 +286,15 @@
           <img src="./img/barra2.png" >
   </div>
 </footer>
-<!-- Footer -->
+<!-- Footer 
     </main> 
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
     ></script>
+    -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -323,5 +329,8 @@
 
       })
     </script>
+
+<script src="js/ubicaciones_mapa.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDpaIroPBt3YAqP7SwYylETUjBkdZfdUM" async defer></script>
   </body>
 </html>

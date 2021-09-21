@@ -215,7 +215,7 @@
           <?php } ?>
         </div>
         <div>
-          <a href="search.php" class="btn-white mb-4">Ver Todas</a>
+          <a href="puntointeres.php" class="btn-white mb-4">Ver Todas</a>
         </div>
         <div class="barra-primera bg-white">
           <img src="./img/barra.png" >

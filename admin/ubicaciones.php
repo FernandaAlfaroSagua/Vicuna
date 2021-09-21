@@ -41,6 +41,8 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src='https://cdn.tiny.cloud/1/3kfa30gxd9mzy6z1zb8dtgdp6a7wx0rpa0mm5gbxmru677vg/tinymce/5/tinymce.min.js' referrerpolicy="origin"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="../css/style.css">
     <script>
         tinymce.init({
         selector: '#descripcionUbicacion',
@@ -277,16 +279,20 @@
                 <div class="mb-3">
                   <label for="latitud">Latitud</label>
                   <div id="frm_latitud">
-                    <input class="form-control" id="latitud" name="latitud" type="text">
+                    <input class="form-control" id="latitud" name="latitud" type="text" disabled>
                     <div class="invalid-feedback"></div>
                   </div>
                 </div>
                 <div class="mb-3">
                   <label for="longitud">Longitud</label>
                   <div id="frm_longitud">
-                    <input class="form-control" id="longitud" name="longitud" type="text">
+                    <input class="form-control" id="longitud" name="longitud" type="text" disabled>
                     <div class="invalid-feedback"></div>
                   </div>
+                </div>
+                <div>
+                  <input id="pac-input" class="controls" type="text" placeholder="Buscar" />
+                  <div id="map"></div>
                 </div>
                 <div class="mb-3">
                   <label for="estado">Estado</label>
@@ -359,5 +365,8 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="../js/ubicacion.js"></script> 
+    <script src="../js/ubicacionesQR.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDpaIroPBt3YAqP7SwYylETUjBkdZfdUM&libraries=places" async defer></script>
+
   </body>
 </html>
