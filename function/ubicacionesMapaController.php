@@ -27,7 +27,7 @@ function getDataQR()
 }
 function getDataEmpresa()
 {
-    $sqlser = "SELECT * FROM empresa";
+    $sqlser = "SELECT * FROM empresa WHERE estadoEmpresa=1";
     $resultser = mysqli_query(conectar(), $sqlser);
     $rows = array();
     while ($r = mysqli_fetch_array($resultser)) {
