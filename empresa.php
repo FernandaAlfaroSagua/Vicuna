@@ -341,8 +341,8 @@
 
       })
     </script>
-    <script src="js/ubicacion_empresa.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDpaIroPBt3YAqP7SwYylETUjBkdZfdUM" async defer></script>
+    <script src="js/ubicacion_empresa.js"></script>
  
   </body>
 </html>
