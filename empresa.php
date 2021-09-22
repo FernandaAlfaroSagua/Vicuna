@@ -139,7 +139,9 @@
         </div>
     
       <div class="row mb-2">
-        <div id="map"></div>
+        <div id="map">
+          <img src="./img/mapa.jpg" alt="">
+        </div>
       </div>
       <div class="row mb-2">
           <h3 class="subtitle heading-color">Galería</h3>
